@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Interview Question Snippet Library</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2d3748;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-64 flex-shrink-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark/50 flex flex-col">
+<div class="p-6">
+<div class="flex items-center gap-3 mb-8">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-xl">code_blocks</span>
+</div>
+<div>
+<h1 class="text-sm font-bold tracking-tight">Snippet Vault</h1>
+<p class="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Interview Prep</p>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">dashboard</span>
+<span class="text-sm">All Snippets</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">terminal</span>
+<span class="text-sm">Algorithms</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">layers</span>
+<span class="text-sm">System Design</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">javascript</span>
+<span class="text-sm">Frontend</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">database</span>
+<span class="text-sm">SQL &amp; Data</span>
+</a>
+</nav>
+<div class="mt-10 pt-6 border-t border-slate-200 dark:border-slate-800">
+<p class="px-3 text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-4">My Collections</p>
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl text-yellow-500">star</span>
+<span class="text-sm">Favorites</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 transition-colors" href="#">
+<span class="material-symbols-outlined text-xl text-primary">history</span>
+<span class="text-sm">Recently Used</span>
+</a>
+</div>
+</div>
+</div>
+<div class="mt-auto p-4">
+<div class="bg-primary/5 dark:bg-slate-800/50 rounded-xl p-4 border border-primary/10 dark:border-slate-700">
+<p class="text-xs text-slate-500 mb-2">Platform usage</p>
+<div class="w-full bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full mb-3">
+<div class="bg-primary h-1.5 rounded-full w-3/4"></div>
+</div>
+<p class="text-[10px] font-medium text-slate-600 dark:text-slate-400 uppercase tracking-tight">128/200 Snippets Used</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col bg-white dark:bg-background-dark overflow-hidden">
+<!-- Header / Utility Bar -->
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 px-8 flex items-center justify-between flex-shrink-0">
+<div class="flex items-center gap-4 flex-1 max-w-2xl">
+<div class="relative w-full group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/50 placeholder-slate-500 transition-all" placeholder="Search snippets (Ctrl+K)" type="text"/>
+<div class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400 border border-slate-300 dark:border-slate-700 px-1.5 py-0.5 rounded uppercase pointer-events-none">Ctrl K</div>
+</div>
+</div>
+<div class="flex items-center gap-4 ml-8">
+<button class="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm font-bold transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-lg">add</span>
+<span>Create Snippet</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200 dark:border-slate-800 mx-2"></div>
+<div class="relative">
+<div class="size-9 rounded-full bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 flex items-center justify-center overflow-hidden cursor-pointer" data-alt="User profile avatar circle" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBu950CwQYdV8uIJCvU9KJtq0CTTVH_lE4Z_eU1qD-4yw_RGQteVF1ruRr9I55FGeKL-ZiTFjEubLq_I4sQrBD5uRAcmLYUtXNYLxEMXpiuwlr3t1mp4cYpdbX-px3CngbSez6j8Bzw9pZDzOeL2pFr5IN4NYhl5e1nWjkrYCDITEh-Ua6QgOAmz1R_GAs6lv9wkAcT1mKvnP_H9b9Y7BvJSYOdnN2fgi6SnC1ZA9eHk04WI743183oAeeCqCxrhpg06tVdIIr5GIxQ')">
+</div>
+<div class="absolute bottom-0 right-0 size-3 bg-green-500 border-2 border-white dark:border-background-dark rounded-full"></div>
+</div>
+</div>
+</header>
+<!-- Library Content -->
+<div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+<div class="mb-8">
+<h2 class="text-3xl font-black tracking-tight mb-2">Snippet Library</h2>
+<p class="text-slate-500 dark:text-slate-400">Manage and preview your common technical interview coding questions.</p>
+</div>
+<!-- Filters -->
+<div class="flex items-center gap-3 mb-8 overflow-x-auto pb-2">
+<button class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-xs font-bold">
+                        All Questions
+                    </button>
+<button class="flex items-center gap-2 px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="size-2 rounded-full bg-green-500"></span> Easy
+                    </button>
+<button class="flex items-center gap-2 px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="size-2 rounded-full bg-yellow-500"></span> Medium
+                    </button>
+<button class="flex items-center gap-2 px-4 py-1.5 rounded-full border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="size-2 rounded-full bg-red-500"></span> Hard
+                    </button>
+</div>
+<!-- Snippets Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 hover:border-primary/50 hover:shadow-xl dark:hover:shadow-primary/5 transition-all flex flex-col">
+<div class="flex items-start justify-between mb-4">
+<span class="px-2.5 py-1 rounded bg-green-100 dark:bg-green-500/10 text-green-700 dark:text-green-400 text-[10px] font-bold uppercase tracking-wider">Easy</span>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+</div>
+<h3 class="text-lg font-bold mb-2 group-hover:text-primary transition-colors">Invert Binary Tree</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 mb-4 leading-relaxed">Given the root of a binary tree, invert the tree, and return its root.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="text-[10px] font-semibold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">#trees</span>
+<span class="text-[10px] font-semibold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">#recursion</span>
+</div>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex -space-x-2">
+<div class="size-6 rounded-full border-2 border-white dark:border-slate-900 bg-slate-200 dark:bg-slate-700" data-alt="Reviewer avatar 1" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAo7vyr9m0dzy17Rys9hetJBUACJt5j3dOHKH-u1H-eRO25wUfnlo4lvzPPzHXs3zzuc10j8WE8JL6EtcauU9EO37Kq9sZK_llP7n9HiaDeo7Od29BU7BViopEBjrEaCHOKWHRA3uPm6FlPBRO8h90JBPnY00z0oo_TCoFU6JpEGufiBYzyAFAGHA6ejch8zPLh3E5iImvdCnphwow4qLYTr3_yDLN0v8ukGe3ndEzn_r3iVHc0csdOfuuIdo21Xeg662gEEtQ83YsD')"></div>
+<div class="size-6 rounded-full border-2 border-white dark:border-slate-900 bg-slate-200 dark:bg-slate-700" data-alt="Reviewer avatar 2" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDs3NlgnGLkq9xhBnCWmNdwusWiHJb_bPKSOOE_kXCzAWzDQ20rk3XDuO4N2m6KCNGfxUe6hfZXlx4SAwDYtaTMgrjH4vFJ6HrvuWNvWYkK-0WzCIITM8JEJyW6fVfV6iIYvw5hl_2qlQDhrSxEsdURT-E53pvkOJAGREuAukhOghe_xbe99uArABUZk7y7kiWAr4th4KBwraFfwYsDcJuy28mJ2TbpeTf7sDIAFB9nKDq9deb32nvPYPv9xOdtgTIBmpaJbkhURss_')"></div>
+</div>
+<button class="text-primary text-xs font-bold flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm">visibility</span>
+                                Preview
+                            </button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 hover:border-primary/50 hover:shadow-xl dark:hover:shadow-primary/5 transition-all flex flex-col">
+<div class="flex items-start justify-between mb-4">
+<span class="px-2.5 py-1 rounded bg-red-100 dark:bg-red-500/10 text-red-700 dark:text-red-400 text-[10px] font-bold uppercase tracking-wider">Hard</span>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+</div>
+<h3 class="text-lg font-bold mb-2 group-hover:text-primary transition-colors">Design Rate Limiter</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 mb-4 leading-relaxed">Design a system to limit the number of requests a client can make within a time window.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="text-[10px] font-semibold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">#system-design</span>
+<span class="text-[10px] font-semibold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">#scaling</span>
+</div>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex -space-x-2">
+<div class="size-6 rounded-full border-2 border-white dark:border-slate-900 bg-slate-200 dark:bg-slate-700" data-alt="Reviewer avatar 3" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDhbYHzH4ShazjanLEmeYOa9K-KZnr6YKzCLlOql9eos1m1aFm9ERaMcyc9hEsMmcCCkPsT-gUunHrKHAop1zWDMMPlBIZiX_ma-9WjOg0FWp5ie40SVWHg0K0kxLQIUK4jHQjTx861u97s5PJIw28txFc-an0OrZ0svNxMe2Kt_CFZfwQvCR8gy_WzibepB8t4MoR6cqMM7ly3E4tzTimE8N_B75KGx7D_2w35b0XBSuaxfE_XEgejiQOxOa9M-A8gWXPNNPiG_jlq')"></div>
+</div>
+<button class="text-primary text-xs font-bold flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm">visibility</span>
+                                Preview
+                            </button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 hover:border-primary/50 hover:shadow-xl dark:hover:shadow-primary/5 transition-all flex flex-col border-dashed border-2 bg-slate-50/50 dark:bg-slate-900/30">
+<div class="flex items-start justify-between mb-4">
+<span class="px-2.5 py-1 rounded bg-yellow-100 dark:bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 text-[10px] font-bold uppercase tracking-wider">Medium</span>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+</div>
+<h3 class="text-lg font-bold mb-2 group-hover:text-primary transition-colors">Debounce Function</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 mb-4 leading-relaxed">Implement a debounce function that delays invoking a function until after milliseconds have elapsed.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="text-[10px] font-semibold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">#javascript</span>
+<span class="text-[10px] font-semibold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">#frontend</span>
+</div>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex -space-x-2">
+<div class="size-6 rounded-full border-2 border-white dark:border-slate-900 bg-slate-200 dark:bg-slate-700" data-alt="Reviewer avatar 4" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBnk24WheBdzWbEpSYEVAJc2-tiE3z5Adm_272lkTnJGdUH314_sqEAfZ6cDdFJnLSugz9L99YTk1MzbJ22ap9aM7HuIbFqSWtEv1A7xP0Ewd_MWwN_-a8zPLUJ68SveU24dQTgxRsbhA7zDZbtrmNqjqN6JHLASaBD9SsNDvfv5jPBd4B6p5n20x6VqQA5dj8LXIe_UJ_qvYndb-YtmuP5IU2as7dlIzP7rTVioF4eeM8BEfcPJ3y84NF8Rw44IlKa6kjYqbW6dGMJ')"></div>
+<div class="size-6 rounded-full border-2 border-white dark:border-slate-900 bg-slate-200 dark:bg-slate-700" data-alt="Reviewer avatar 5" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDLf6DX9lQPKG82JUUjFziucdpePnBFLq-CulclYAEOHVcXQFB6cxYwI_-X0L68BYDhxL-eCOsbMa3q3UFLauV1OhrDcJuxjGSKkkgZ4PyKHodiOiJgo3HkqiT5YguRY_6o_sYihFWNMT0Z1SirlgPtjFS_O-pg6uqD3L3tkrFmE8toiAkh-eq26fDvdcLnXhYctzAgVUifkQW-N_mjaPwmVBlVB6wT5qNdHFuf1oP3ScFJRaxjWSONoW5xTkXPmSK6dF_OVwS7QewT')"></div>
+<div class="size-6 rounded-full border-2 border-white dark:border-slate-900 bg-slate-200 dark:bg-slate-700" data-alt="Reviewer avatar 6" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBdDGBNffbixRO5J-CCIdDrtbuqDo-Wn_Rip06HlKpptX6QOqHtBpOp_A2AzHdFytKJRSUm8VsBTCd0QlkKlgKkFNfplzdR-RahY18k9cbkJE7vOjlj7sU2ZtuGk1g9zG_J8YptpNe1IXQ9D29uhoJGlRDDem56pqtILvmBzOiCBL4nsu9TiMAv-GT711qvZ7t5DXxGjqTydr5eTs1M4EP77cotC3Rti_55RCJ8sFeRdv7a-Ec3lAurNpZo6LVByTu5v5gZ0txpD13W')"></div>
+</div>
+<button class="text-primary text-xs font-bold flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm">visibility</span>
+                                Preview
+                            </button>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 hover:border-primary/50 hover:shadow-xl dark:hover:shadow-primary/5 transition-all flex flex-col">
+<div class="flex items-start justify-between mb-4">
+<span class="px-2.5 py-1 rounded bg-yellow-100 dark:bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 text-[10px] font-bold uppercase tracking-wider">Medium</span>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+</div>
+<h3 class="text-lg font-bold mb-2 group-hover:text-primary transition-colors">LRU Cache</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 mb-4 leading-relaxed">Design a data structure that follows the constraints of a Least Recently Used (LRU) cache.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="text-[10px] font-semibold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">#data-structures</span>
+<span class="text-[10px] font-semibold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">#caching</span>
+</div>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex -space-x-2">
+<div class="size-6 rounded-full border-2 border-white dark:border-slate-900 bg-slate-200 dark:bg-slate-700" data-alt="Reviewer avatar 7" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCCqmcTTutVwG2jzOS4bT6nat-WsX74I6J8VByKFSWeRTHzBljfSMBN2gIuh-V9ncaaISJMo2vPRd2tmHS2Njne59aU03BGhAMXfXNKBSEQq3qFAKZZ5_JW198ak0UzFKjw5o97MzMUQvKdoYuici8o8Km0es3DHtTBH8QvhWoSWRbI__t2YAmbm5-_Smb3bimBY1IBkCwkfd7BRa2RURsj8Jl0U4oFVU6Z9LMF0GwOQ0JoRZldFI2xg1HlAEzuzrVhGW2XiO-JELjl')"></div>
+</div>
+<button class="text-primary text-xs font-bold flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm">visibility</span>
+                                Preview
+                            </button>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-5 hover:border-primary/50 hover:shadow-xl dark:hover:shadow-primary/5 transition-all flex flex-col">
+<div class="flex items-start justify-between mb-4">
+<span class="px-2.5 py-1 rounded bg-green-100 dark:bg-green-500/10 text-green-700 dark:text-green-400 text-[10px] font-bold uppercase tracking-wider">Easy</span>
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">more_vert</span>
+</button>
+</div>
+<h3 class="text-lg font-bold mb-2 group-hover:text-primary transition-colors">Valid Parentheses</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 mb-4 leading-relaxed">Determine if the input string is valid based on bracket pairing rules.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="text-[10px] font-semibold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">#stack</span>
+<span class="text-[10px] font-semibold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">#strings</span>
+</div>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex -space-x-2">
+<div class="size-6 rounded-full border-2 border-white dark:border-slate-900 bg-slate-200 dark:bg-slate-700" data-alt="Reviewer avatar 8" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCNni-rjR887bDhyLbYZvCM6vAxsqV8myWKEiOWGfmZkA16zO3YnjHjFo7Ny6dJVi-kyTgBDNIqnSo-JPWaUGGae124AgG1sp-JAeNNZH39i-qC6N6ROZ95VtcH0k_S4zISf-GTKs_EUBzn0FFK7JHIhoDjP97K_ygNHsjt57w8g5dz6xgOPAl58uqoHOraf7ITlu6JjRDorl4tMZS9lzJ9fPsUBuduE1nmRZ3DnUhq-o0xZt02HbkmFsEcsb0ffTf_ifYPnlHCNDqp')"></div>
+</div>
+<button class="text-primary text-xs font-bold flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm">visibility</span>
+                                Preview
+                            </button>
+</div>
+</div>
+<!-- Create Placeholder -->
+<button class="group border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl p-5 hover:border-primary/50 hover:bg-primary/5 transition-all flex flex-col items-center justify-center text-slate-400 hover:text-primary min-h-[220px]">
+<span class="material-symbols-outlined text-4xl mb-2 group-hover:scale-110 transition-transform">add_circle</span>
+<span class="text-sm font-bold">New Snippet</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Preview Pane (Collapsible Side Drawer Style) -->
+<aside class="w-96 border-l border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark/80 flex flex-col flex-shrink-0 hidden lg:flex">
+<div class="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+<h4 class="font-bold text-sm uppercase tracking-widest text-slate-500">Live Preview</h4>
+<div class="flex gap-2">
+<button class="size-8 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500">
+<span class="material-symbols-outlined text-lg">content_copy</span>
+</button>
+<button class="size-8 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+</div>
+</div>
+<div class="flex-1 p-6 overflow-y-auto custom-scrollbar">
+<div class="mb-6">
+<h3 class="text-xl font-black mb-2">Invert Binary Tree</h3>
+<div class="flex items-center gap-4 mb-4">
+<span class="px-2 py-0.5 rounded bg-green-500/10 text-green-500 text-[10px] font-bold uppercase tracking-wider">Easy</span>
+<span class="text-xs text-slate-500 font-medium">LeetCode 226</span>
+</div>
+<div class="prose prose-sm dark:prose-invert">
+<p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Given the <code class="bg-slate-100 dark:bg-slate-800 px-1 rounded">root</code> of a binary tree, invert the tree, and return its root.
+                        </p>
+</div>
+</div>
+<div class="bg-slate-900 rounded-lg overflow-hidden border border-slate-800 mb-6">
+<div class="bg-slate-800 px-4 py-2 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="size-2 rounded-full bg-red-500"></span>
+<span class="size-2 rounded-full bg-yellow-500"></span>
+<span class="size-2 rounded-full bg-green-500"></span>
+<span class="text-[10px] text-slate-400 font-mono ml-2">solution.js</span>
+</div>
+</div>
+<div class="p-4 font-mono text-xs leading-relaxed text-slate-300 overflow-x-auto">
+<pre class="whitespace-pre"><code><span class="text-purple-400">const</span> invertTree = (root) =&gt; {
+  <span class="text-purple-400">if</span> (!root) <span class="text-purple-400">return</span> <span class="text-blue-400">null</span>;
+  
+  <span class="text-slate-500">// Swap children</span>
+  <span class="text-purple-400">const</span> temp = root.left;
+  root.left = root.right;
+  root.right = temp;
+  
+  <span class="text-slate-500">// Recursively invert</span>
+  invertTree(root.left);
+  invertTree(root.right);
+  
+  <span class="text-purple-400">return</span> root;
+};</code></pre>
+</div>
+</div>
+<div class="space-y-4">
+<div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-lg border border-slate-200 dark:border-slate-800">
+<h5 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Complexity Analysis</h5>
+<ul class="text-xs space-y-2 text-slate-600 dark:text-slate-400">
+<li class="flex justify-between">
+<span>Time Complexity:</span>
+<span class="font-mono text-primary">O(n)</span>
+</li>
+<li class="flex justify-between">
+<span>Space Complexity:</span>
+<span class="font-mono text-primary">O(h)</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="p-6 mt-auto border-t border-slate-200 dark:border-slate-800">
+<button class="w-full bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 py-2 rounded-lg text-sm font-bold hover:opacity-90 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">play_arrow</span>
+                    Run in Interview
+                </button>
+</div>
+</aside>
+</div>
+</body></html>

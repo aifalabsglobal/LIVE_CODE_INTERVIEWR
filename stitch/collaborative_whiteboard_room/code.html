@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Collaborative Whiteboard Room</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .whiteboard-grid {
+            background-color: #f6f6f8;
+            background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .dark .whiteboard-grid {
+            background-color: #101622;
+            background-image: radial-gradient(#1e293b 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased overflow-hidden">
+<div class="relative flex h-screen w-full flex-col">
+<!-- Top Navigation Bar -->
+<header class="z-30 flex h-14 w-full items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-6">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-2xl font-bold">draw</span>
+<h1 class="text-base font-semibold tracking-tight">System Design Board</h1>
+</div>
+<div class="h-4 w-px bg-slate-300 dark:bg-slate-700"></div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-medium text-slate-500 uppercase tracking-wider">Interview Room:</span>
+<span class="text-sm font-semibold">Live Session #842</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-lg">code</span>
+                    Back to Editor
+                </button>
+<div class="h-4 w-px bg-slate-300 dark:bg-slate-700"></div>
+<button class="flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-700 px-3 py-1.5 text-sm font-semibold text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+<span class="material-symbols-outlined text-lg">delete_sweep</span>
+                    Clear Canvas
+                </button>
+<button class="flex items-center gap-2 rounded-lg bg-primary px-4 py-1.5 text-sm font-bold text-white shadow-sm hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-lg">share</span>
+                    Share
+                </button>
+</div>
+</header>
+<main class="relative flex-1 overflow-hidden">
+<!-- Whiteboard Canvas -->
+<div class="whiteboard-grid absolute inset-0 z-0 cursor-crosshair">
+<!-- Mock Collaborative Cursors -->
+<div class="absolute top-[40%] left-[35%] flex flex-col items-start gap-1 pointer-events-none">
+<span class="material-symbols-outlined text-primary fill-1 -ml-1.5 -mt-1.5">near_me</span>
+<span class="rounded bg-primary px-1.5 py-0.5 text-[10px] font-bold text-white shadow-sm">Alex (Interviewer)</span>
+</div>
+<!-- Mock Drawing Elements -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-40 select-none">
+<div class="flex flex-col items-center gap-4">
+<div class="h-32 w-48 rounded-xl border-2 border-dashed border-slate-400 dark:border-slate-600 flex items-center justify-center">
+<span class="text-slate-400 font-medium">Load Balancer</span>
+</div>
+<span class="material-symbols-outlined text-4xl text-slate-400">arrow_downward</span>
+<div class="flex gap-8">
+<div class="h-24 w-32 rounded-lg border-2 border-slate-400 dark:border-slate-600 flex items-center justify-center">
+<span class="text-slate-400 text-sm">App Server 1</span>
+</div>
+<div class="h-24 w-32 rounded-lg border-2 border-slate-400 dark:border-slate-600 flex items-center justify-center">
+<span class="text-slate-400 text-sm">App Server 2</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Vertical Toolbar (Left) -->
+<aside class="absolute left-6 top-1/2 z-20 -translate-y-1/2 flex flex-col items-center gap-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-2 shadow-xl">
+<button class="group relative flex h-10 w-10 items-center justify-center rounded-lg text-primary bg-primary/10 transition-colors" title="Select (V)">
+<span class="material-symbols-outlined">near_me</span>
+</button>
+<button class="group relative flex h-10 w-10 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Pen (P)">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="group relative flex h-10 w-10 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Rectangle (R)">
+<span class="material-symbols-outlined">rectangle</span>
+</button>
+<button class="group relative flex h-10 w-10 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Circle (C)">
+<span class="material-symbols-outlined">circle</span>
+</button>
+<button class="group relative flex h-10 w-10 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Arrow (A)">
+<span class="material-symbols-outlined">trending_flat</span>
+</button>
+<button class="group relative flex h-10 w-10 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Text (T)">
+<span class="material-symbols-outlined">text_fields</span>
+</button>
+<div class="h-px w-6 bg-slate-200 dark:bg-slate-800 my-1"></div>
+<button class="group relative flex h-10 w-10 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Eraser (E)">
+<span class="material-symbols-outlined">ink_eraser</span>
+</button>
+<button class="group relative flex h-10 w-10 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Assets">
+<span class="material-symbols-outlined">category</span>
+</button>
+</aside>
+<!-- Video Participants Stack (Right) -->
+<aside class="absolute right-6 top-6 z-20 flex flex-col gap-3">
+<!-- Interviewer Video -->
+<div class="relative h-40 w-52 overflow-hidden rounded-xl bg-slate-200 dark:bg-slate-800 shadow-lg border-2 border-primary">
+<img class="h-full w-full object-cover" data-alt="Professional interviewer in a video call" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzENxoEDGXVORaQOaQOWnrZDd-6FNXaNVcO5Hn_MFWmJu6UgAecYTawMIvRpjis4k8-zeK2XzLjCRXYgdbYpkm1Pfc_OwIBA_CU9PF-LvqTQZdJ-TdiSTurwW8WYXIOfnl3FWcY0OlAXuUMM0e4XZKpuWtY3hYSSl9Zb-OrxmtKZrwRaRXDfhZEWzXu5PCssHrO9sSqZIJcE9Fsj4uKHb-qtgJzgsl2vJgs80RhqaU-WJKK45a9VqDdkPDbUvTLOMn1o-iDyX-H13V"/>
+<div class="absolute bottom-2 left-2 flex items-center gap-1.5 rounded-md bg-black/60 px-2 py-0.5 backdrop-blur-sm">
+<div class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
+<span class="text-[10px] font-bold text-white uppercase tracking-tight">Alex (You)</span>
+</div>
+</div>
+<!-- Candidate Video -->
+<div class="relative h-40 w-52 overflow-hidden rounded-xl bg-slate-200 dark:bg-slate-800 shadow-lg border border-white/10">
+<img class="h-full w-full object-cover" data-alt="Software engineer candidate in a video call" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-qSI6Ek944A5E5PTBBs7BMUtG6VSka_syxAhwQUkg1HOyjB6YL0WxfhQXa7bd6wN-h4x_PtBf8-sPfsJKpKJsHu8sDfqWvqURrebHQFnD9njB--hoPwMVWRDRx-XtI8Qcg7s1eO7kijj8eLrq-dGJYjWKWc4saIOci0OgP9SHahScT1LvCQBUOzb_PSIAzDOaH83FLBDsk9uiAQjNqWkoDmRhIp8kZQRrA7o0vBXPceqpepxubnFxPgzuJ-XqS4o5PCHFJda2g3zK"/>
+<div class="absolute bottom-2 left-2 flex items-center gap-1.5 rounded-md bg-black/60 px-2 py-0.5 backdrop-blur-sm">
+<span class="text-[10px] font-bold text-white uppercase tracking-tight">Jordan Doe</span>
+</div>
+<div class="absolute top-2 right-2 flex items-center justify-center h-6 w-6 rounded-full bg-red-500 text-white">
+<span class="material-symbols-outlined text-sm">mic_off</span>
+</div>
+</div>
+<!-- Chat Toggle / Collapsed -->
+<button class="flex items-center justify-between rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-2.5 shadow-md hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">chat_bubble</span>
+<span class="text-sm font-semibold">Live Chat</span>
+</div>
+<span class="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">3</span>
+</button>
+</aside>
+<!-- Bottom Left Zoom Controls -->
+<div class="absolute bottom-6 left-6 z-20 flex items-center gap-1 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-1 shadow-lg">
+<button class="flex h-8 w-8 items-center justify-center rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-lg">remove</span>
+</button>
+<span class="px-2 text-xs font-bold text-slate-600 dark:text-slate-400">100%</span>
+<button class="flex h-8 w-8 items-center justify-center rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+<div class="h-4 w-px bg-slate-200 dark:bg-slate-800 mx-1"></div>
+<button class="flex h-8 w-8 items-center justify-center rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-lg">center_focus_weak</span>
+</button>
+</div>
+<!-- Global Search Overlay -->
+<div class="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 w-full max-w-md px-4">
+<div class="flex items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 p-2 backdrop-blur-sm shadow-xl">
+<div class="flex flex-1 items-center gap-2 pl-2">
+<span class="material-symbols-outlined text-slate-400">search</span>
+<input class="w-full border-none bg-transparent p-0 text-sm focus:ring-0 placeholder:text-slate-400 dark:text-white" placeholder="Search in canvas..." type="text"/>
+</div>
+<div class="flex items-center gap-1">
+<kbd class="hidden rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 text-[10px] font-semibold text-slate-500 dark:text-slate-400 md:block">CMD</kbd>
+<kbd class="hidden rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 text-[10px] font-semibold text-slate-500 dark:text-slate-400 md:block">K</kbd>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hiring Analytics &amp; Trends | DevHire</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#135bec",
+            "background-light": "#f6f6f8",
+            "background-dark": "#101622",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .chart-gradient-line {
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 0;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex font-display">
+<!-- Sidebar Navigation -->
+<aside class="w-64 border-r border-slate-200 dark:border-slate-800 flex flex-col fixed h-full bg-white dark:bg-background-dark z-20">
+<div class="p-6 flex items-center gap-3">
+<div class="bg-primary rounded-lg p-1.5 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-2xl">code_blocks</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight">DevHire</h1>
+</div>
+<nav class="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar">
+<div class="text-xs font-semibold text-slate-400 uppercase tracking-wider px-3 mb-2 mt-4">Platform</div>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">video_chat</span>
+<span class="font-medium">Live Interviews</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary transition-colors" href="#">
+<span class="material-symbols-outlined fill-1">analytics</span>
+<span class="font-medium">Analytics &amp; Trends</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-medium">Talent Pool</span>
+</a>
+<div class="text-xs font-semibold text-slate-400 uppercase tracking-wider px-3 mb-2 mt-8">Organization</div>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">badge</span>
+<span class="font-medium">Team Management</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium">Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="bg-slate-100 dark:bg-slate-800/50 rounded-xl p-4 flex items-center gap-3">
+<img alt="User" class="size-10 rounded-full border-2 border-primary/20" data-alt="Professional headshot of a male hiring manager" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8HDhCx7aBiXiTsJsWGyUdG0gczG55srWnk9I4i7-XF-VOcPqyVKpXEhRRj77sggujlMNpRS0w4CYuvbvkYQra2HG2pXsPZLbomNSZOVTVw67-aC1XHhm1220hGhGlBCgLbRK0n_TOjSbPN0JdOSHSAmSeEAtwK_IAHWwiMoBPbSVRcUlUKtJxuijuosvcaF6I181uHHICGv2uzf3cXsRCSiJWbF60GjC-LxnUQk67Zh0mplsIoJt1OtNOpRPDjrZumtpcUiNh0dX_"/>
+<div class="overflow-hidden">
+<p class="text-sm font-semibold truncate">Alex Rivera</p>
+<p class="text-xs text-slate-500 truncate">Senior HR Manager</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 flex-1 flex flex-col min-w-0">
+<!-- Top Nav Bar -->
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md sticky top-0 z-10 px-8 flex items-center justify-between">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl">search</span>
+<input class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-slate-700 transition-all outline-none" placeholder="Search analytics, candidates, or reports..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<div class="h-6 w-px bg-slate-200 dark:border-slate-800"></div>
+<button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-xl">download</span>
+<span>Export Report</span>
+</button>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="p-8 space-y-8">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="text-3xl font-black tracking-tight">Hiring Analytics &amp; Trends</h2>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Real-time insights into your technical recruitment pipeline.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
+<span class="material-symbols-outlined text-lg">calendar_today</span>
+<span>Last 30 Days</span>
+<span class="material-symbols-outlined text-lg">expand_more</span>
+</button>
+<button class="flex items-center justify-center p-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+</div>
+<!-- KPI Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- KPI Card 1 -->
+<div class="bg-white dark:bg-slate-800/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-blue-500/10 rounded-lg text-blue-500">
+<span class="material-symbols-outlined">schedule</span>
+</div>
+<span class="flex items-center text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-sm mr-1">trending_down</span>
+              12%
+            </span>
+</div>
+<h3 class="text-slate-500 dark:text-slate-400 text-sm font-medium">Avg. Time-to-Hire</h3>
+<p class="text-3xl font-bold mt-1">18 Days</p>
+<div class="mt-4 h-1.5 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-blue-500 w-[70%]" style="width: 70%;"></div>
+</div>
+<p class="text-[10px] text-slate-400 mt-2 uppercase tracking-widest font-bold">Industry Avg: 24 Days</p>
+</div>
+<!-- KPI Card 2 -->
+<div class="bg-white dark:bg-slate-800/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-emerald-500/10 rounded-lg text-emerald-500">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<span class="flex items-center text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-sm mr-1">trending_up</span>
+              5.4%
+            </span>
+</div>
+<h3 class="text-slate-500 dark:text-slate-400 text-sm font-medium">Interview Pass Rate</h3>
+<p class="text-3xl font-bold mt-1">34.2%</p>
+<div class="mt-4 h-1.5 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-emerald-500 w-[34%]" style="width: 34%;"></div>
+</div>
+<p class="text-[10px] text-slate-400 mt-2 uppercase tracking-widest font-bold">Target: 30%</p>
+</div>
+<!-- KPI Card 3 -->
+<div class="bg-white dark:bg-slate-800/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-amber-500/10 rounded-lg text-amber-500">
+<span class="material-symbols-outlined">forum</span>
+</div>
+<span class="flex items-center text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-sm mr-1">trending_up</span>
+              18%
+            </span>
+</div>
+<h3 class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Interviews</h3>
+<p class="text-3xl font-bold mt-1">1,240</p>
+<div class="mt-4 h-1.5 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-amber-500 w-[85%]" style="width: 85%;"></div>
+</div>
+<p class="text-[10px] text-slate-400 mt-2 uppercase tracking-widest font-bold">Monthly Quota: 1,500</p>
+</div>
+</div>
+<!-- Charts Section -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Main Area: Interview Volume (2/3 width) -->
+<div class="lg:col-span-2 space-y-6">
+<div class="bg-white dark:bg-slate-800/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h3 class="text-lg font-bold">Interview Volume over Time</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400">Total sessions conducted across all departments.</p>
+</div>
+<div class="flex items-center gap-4 text-xs font-semibold">
+<div class="flex items-center gap-1.5">
+<div class="size-2 rounded-full bg-primary"></div>
+<span>Total Sessions</span>
+</div>
+<div class="flex items-center gap-1.5">
+<div class="size-2 rounded-full bg-slate-300 dark:bg-slate-600"></div>
+<span>Previous Period</span>
+</div>
+</div>
+</div>
+<div class="h-72 w-full relative">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 800 300">
+<defs>
+<lineargradient id="line-gradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#135bec" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#135bec" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<!-- Grid Lines -->
+<line class="text-slate-200 dark:text-slate-700/50" stroke="currentColor" stroke-dasharray="4" stroke-width="1" x1="0" x2="800" y1="50" y2="50"></line>
+<line class="text-slate-200 dark:text-slate-700/50" stroke="currentColor" stroke-dasharray="4" stroke-width="1" x1="0" x2="800" y1="125" y2="125"></line>
+<line class="text-slate-200 dark:text-slate-700/50" stroke="currentColor" stroke-dasharray="4" stroke-width="1" x1="0" x2="800" y1="200" y2="200"></line>
+<line class="text-slate-200 dark:text-slate-700/50" stroke="currentColor" stroke-dasharray="4" stroke-width="1" x1="0" x2="800" y1="275" y2="275"></line>
+<!-- Line Chart Path -->
+<path class="chart-gradient-line" d="M0,220 C100,210 150,260 200,180 C250,100 300,140 350,120 C400,100 450,40 500,60 C550,80 600,180 650,150 C700,120 750,140 800,90" fill="none" stroke="#135bec" stroke-width="3"></path>
+<path d="M0,220 C100,210 150,260 200,180 C250,100 300,140 350,120 C400,100 450,40 500,60 C550,80 600,180 650,150 C700,120 750,140 800,90 L800,300 L0,300 Z" fill="url(#line-gradient)"></path>
+<!-- Data Points -->
+<circle class="dark:stroke-slate-800" cx="200" cy="180" fill="#135bec" r="4" stroke="white" stroke-width="2"></circle>
+<circle class="dark:stroke-slate-800" cx="500" cy="60" fill="#135bec" r="4" stroke="white" stroke-width="2"></circle>
+<circle class="dark:stroke-slate-800" cx="800" cy="90" fill="#135bec" r="4" stroke="white" stroke-width="2"></circle>
+</svg>
+<div class="flex justify-between mt-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest px-2">
+<span>Jan</span>
+<span>Feb</span>
+<span>Mar</span>
+<span>Apr</span>
+<span>May</span>
+<span>Jun</span>
+<span>Jul</span>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-800/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<h3 class="text-lg font-bold mb-6">Candidate Performance by Role</h3>
+<div class="space-y-6">
+<!-- Frontend -->
+<div class="space-y-2">
+<div class="flex justify-between text-sm font-medium">
+<span>Frontend Engineering</span>
+<span class="text-primary font-bold">88% score</span>
+</div>
+<div class="h-2 w-full bg-slate-100 dark:bg-slate-700 rounded-full flex overflow-hidden">
+<div class="bg-primary h-full" style="width: 88%;"></div>
+</div>
+</div>
+<!-- Backend -->
+<div class="space-y-2">
+<div class="flex justify-between text-sm font-medium">
+<span>Backend Engineering</span>
+<span class="text-emerald-500 font-bold">72% score</span>
+</div>
+<div class="h-2 w-full bg-slate-100 dark:bg-slate-700 rounded-full flex overflow-hidden">
+<div class="bg-emerald-500 h-full" style="width: 72%;"></div>
+</div>
+</div>
+<!-- DevOps -->
+<div class="space-y-2">
+<div class="flex justify-between text-sm font-medium">
+<span>DevOps &amp; Infrastructure</span>
+<span class="text-amber-500 font-bold">64% score</span>
+</div>
+<div class="h-2 w-full bg-slate-100 dark:bg-slate-700 rounded-full flex overflow-hidden">
+<div class="bg-amber-500 h-full" style="width: 64%;"></div>
+</div>
+</div>
+<!-- Mobile -->
+<div class="space-y-2">
+<div class="flex justify-between text-sm font-medium">
+<span>Mobile (iOS/Android)</span>
+<span class="text-purple-500 font-bold">79% score</span>
+</div>
+<div class="h-2 w-full bg-slate-100 dark:bg-slate-700 rounded-full flex overflow-hidden">
+<div class="bg-purple-500 h-full" style="width: 79%;"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar Section: AI Insights & Top Interviewers -->
+<div class="space-y-6">
+<!-- AI Skill Gaps -->
+<div class="bg-slate-900 border border-slate-800 p-6 rounded-xl shadow-xl">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary">psychology</span>
+<h3 class="text-lg font-bold text-white">AI Skill Gap Analysis</h3>
+</div>
+<p class="text-sm text-slate-400 mb-6">AI detected common weaknesses in the last 200 candidates.</p>
+<div class="space-y-4">
+<div class="p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+<div class="flex justify-between items-center mb-1">
+<span class="text-xs font-bold text-red-400 uppercase">Critical Gap</span>
+<span class="text-xs font-medium text-slate-400">62% of candidates</span>
+</div>
+<p class="text-sm font-semibold text-white">System Design Patterns</p>
+</div>
+<div class="p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg">
+<div class="flex justify-between items-center mb-1">
+<span class="text-xs font-bold text-amber-400 uppercase">Developing Gap</span>
+<span class="text-xs font-medium text-slate-400">45% of candidates</span>
+</div>
+<p class="text-sm font-semibold text-white">Unit Testing Coverage</p>
+</div>
+</div>
+<div class="mt-6 flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-slate-800 text-slate-300 text-[10px] font-bold rounded uppercase">Concurrency</span>
+<span class="px-2 py-1 bg-slate-800 text-slate-300 text-[10px] font-bold rounded uppercase">Memory Mgmt</span>
+<span class="px-2 py-1 bg-slate-800 text-slate-300 text-[10px] font-bold rounded uppercase">Graph Theory</span>
+</div>
+</div>
+<!-- Top Interviewers -->
+<div class="bg-white dark:bg-slate-800/50 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<h3 class="text-lg font-bold mb-6">Top Interviewers</h3>
+<div class="space-y-5">
+<!-- Interviewer 1 -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img alt="Marcus" class="size-10 rounded-full border border-slate-200 dark:border-slate-700" data-alt="Avatar of male engineering lead" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5wDoU6hRN1bYXYt4UMcY1qX24D5ojIXtVpPgRJKvppMzI8CeXka01GDQK_Z-OVeKsALGZCz2wipvT85IECJ9wY99RV5unsg7NLcnWYyw6AU_DASm_RwpxZoL3-G0ZtdYgTpBZzCqXpmXtDCU_KD-HxzlNDcOHKbePy24nLEm0SKYAJ_LBHNECSbCC9p9acLI5CmoscPgFUuzepTqJNHQaZJcH5DvcZwB-ZSDLwcbK816q5mKawFbKz_ThldZBJimOwNWBHb1YJRl6"/>
+<div>
+<p class="text-sm font-bold">Marcus T.</p>
+<p class="text-xs text-slate-500">42 Sessions</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-emerald-500">9.8</p>
+<p class="text-[10px] text-slate-400 uppercase font-bold tracking-tight">Rating</p>
+</div>
+</div>
+<!-- Interviewer 2 -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img alt="Sarah" class="size-10 rounded-full border border-slate-200 dark:border-slate-700" data-alt="Avatar of female engineering manager" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0KWdb5AHQqylC-S_xR0ppTQQ-hbhOFj1w0LdZ3RLTcKPbTf1Tog8DjWVoa9czCOgy4xEFbU_-Pf-wt-pEAm_1oyeHX_kYexiasKJoHWcVzuOdiIyxCmYJmcFHRo84pVRs2taTXzDi6gFDFCf1l6uNFl0DItICY7UgfXTC2ScVN-gTwmJni2cmhEpbQRql9ANlGNc8xnQd8zXCzY5RyRHNY0P57Q-URlcMxbq_yVC9QFD1XYjAc4jAIhlVe2BVYkcpm7jgrszJHUw2"/>
+<div>
+<p class="text-sm font-bold">Sarah Jenkins</p>
+<p class="text-xs text-slate-500">38 Sessions</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-emerald-500">9.6</p>
+<p class="text-[10px] text-slate-400 uppercase font-bold tracking-tight">Rating</p>
+</div>
+</div>
+<!-- Interviewer 3 -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img alt="David" class="size-10 rounded-full border border-slate-200 dark:border-slate-700" data-alt="Avatar of male developer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCX-eHmCp2_UgnW-0NQtIP7xC6YvURi9kHFNUuLoJlL74_ZwrWWk59reckaelwaT4z4TD-6Htd3N5BuO7V3G5Oq8ntWic60Xe7YK61Yt-mjclabICumv4IdUYpndwZxoCqSe33PwC0LIEYkhSm2QPtPSts_fAplzd_EF7xOOMZ1IeE-7Rjt2fnqy4aQh-K_IaZywJFHFz6-UDWnWYcje3Tx4KANS22mYR38k7Ss7yxZNJcChEFDdC8TrKTqjIa0jG-0vY8gq3Dhg_jt"/>
+<div>
+<p class="text-sm font-bold">David Chen</p>
+<p class="text-xs text-slate-500">31 Sessions</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-emerald-500">9.4</p>
+<p class="text-[10px] text-slate-400 uppercase font-bold tracking-tight">Rating</p>
+</div>
+</div>
+<!-- Interviewer 4 -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img alt="Aisha" class="size-10 rounded-full border border-slate-200 dark:border-slate-700" data-alt="Avatar of female lead developer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_i6BFPlxLhaq6GrYhvjTzhbuj05rXOVsb6dtZsYqgLVCkmgbTJCfeAklHbGXrQdJPtHt4Off6hIPePPR8HLHIWlxpFuCuw-8Sx5D_8G7gZAUgUkxKBimgxjn4eom0fkCOffEK6QO9afOtNJswmXWyz74_0HI2wBn75TZgO4z4rcNKTqg87TsZPooYFc0Q_WSKWvMOejyZVK4eFlWTW_WhbZJ1JbeJcJ5mNfP9MCkF4kEOR2fAqBu914jhofjeOhyERQjQV6K1ofjG"/>
+<div>
+<p class="text-sm font-bold">Aisha Khan</p>
+<p class="text-xs text-slate-500">28 Sessions</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold text-emerald-500">9.2</p>
+<p class="text-[10px] text-slate-400 uppercase font-bold tracking-tight">Rating</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
+              VIEW LEADERBOARD
+            </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

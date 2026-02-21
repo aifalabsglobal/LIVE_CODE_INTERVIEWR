@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Live Interview Workspace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0d1117",
+                        "editor-bg": "#161b22",
+                        "success": "#238636",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .code-editor { font-family: 'JetBrains Mono', monospace; }
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #484f58; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 h-screen overflow-hidden flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between px-6 py-3 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark z-10">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="bg-primary p-1.5 rounded-lg text-white">
+<span class="material-symbols-outlined text-2xl">terminal</span>
+</div>
+<h1 class="text-lg font-bold tracking-tight">Live Interview Workspace</h1>
+</div>
+<div class="h-6 w-px bg-slate-200 dark:bg-slate-800"></div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+<span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Room ID:</span>
+<span class="text-sm font-mono font-medium">XYZ-123-A9</span>
+</div>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined text-lg">content_copy</span>
+<span>Copy Link</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 mr-2">
+<div class="relative group">
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-medium">
+<span class="w-2 h-2 rounded-full bg-yellow-500"></span>
+                        Python 3.10
+                        <span class="material-symbols-outlined text-lg">expand_more</span>
+</button>
+</div>
+<button class="flex items-center gap-2 px-5 py-2 rounded-lg bg-success hover:bg-success/90 text-white text-sm font-bold transition-all shadow-sm">
+<span class="material-symbols-outlined text-lg">play_arrow</span>
+                    Run Code
+                </button>
+</div>
+<div class="h-6 w-px bg-slate-200 dark:bg-slate-800"></div>
+<div class="flex items-center -space-x-2">
+<div class="relative">
+<img class="w-9 h-9 rounded-full border-2 border-white dark:border-background-dark object-cover" data-alt="Interviewer avatar professional headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4iE0wnONW3yBUgjvPiuBX46bEPJ01GZ-SEkkLXYZO1gdzaCH_3F7jc0As-FYWJM3lJaN5CxVEs5Rf2Xa2wDllNHw-EIIsLmt2lMz4zqtTUMW068TizuO0H0b1Qs82BIm-CD_8vp_Gb9WbWbDpvaRm2pA-Kc1rTNVOgiw1k0PgThWURTo-6w0RlKWW0VnNJEkqQkcFD91fWfk8CFmRPuLsZHQ9EB6c7FRtCjJ0fekhfzhEng3KYE0kIo6X2ms8ggDxwTbtrrF2lzgS"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white dark:border-background-dark rounded-full"></span>
+</div>
+<div class="relative">
+<img class="w-9 h-9 rounded-full border-2 border-white dark:border-background-dark object-cover" data-alt="Candidate avatar professional headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMY2tQ9cp_x_ebAjnsExTnE4Na84f7ATbyWoNWxdOKji3VlSAGCt_ZGM7FEOOfOdFl8R_juIdTiHMFyUvy2HI5k9J3dNRz2Tfej2kqbPpekJTtQ-7LQkZPUDhaI1rpMDcsFEPmPiyhP3Hldrduir90ZurSzfA8LatFDtGESuwHS-4ltv8dFwQtH5SixhVH0ydwA_z9DKhOkWHvrP8NM4_hy5EdREuFTdlQci5YjmRhYy8EJWHwTveJ4qtxPfOMpbNYo08ZjHHM4_I5"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white dark:border-background-dark rounded-full"></span>
+</div>
+<div class="w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-700 border-2 border-white dark:border-background-dark flex items-center justify-center text-xs font-bold text-slate-500">
+                    +1
+                </div>
+</div>
+<button class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<!-- Main Workspace Area -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Left: Code Editor (70%) -->
+<section class="w-[70%] flex flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-editor-bg">
+<!-- Tabs -->
+<div class="flex items-center bg-slate-50 dark:bg-background-dark/50 border-b border-slate-200 dark:border-slate-800 overflow-x-auto">
+<div class="flex items-center px-4 py-2 bg-white dark:bg-editor-bg border-r border-slate-200 dark:border-slate-800 border-t-2 border-t-primary min-w-[140px]">
+<span class="material-symbols-outlined text-sm text-yellow-500 mr-2">description</span>
+<span class="text-sm font-medium">solution.py</span>
+<span class="material-symbols-outlined text-xs ml-auto opacity-0 group-hover:opacity-100 cursor-pointer">close</span>
+</div>
+<div class="flex items-center px-4 py-2 border-r border-slate-200 dark:border-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer min-w-[140px]">
+<span class="material-symbols-outlined text-sm text-blue-400 mr-2">description</span>
+<span class="text-sm font-medium">test_cases.json</span>
+</div>
+<div class="flex items-center px-4 py-2 border-r border-slate-200 dark:border-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer min-w-[140px]">
+<span class="material-symbols-outlined text-sm text-slate-400 mr-2">info</span>
+<span class="text-sm font-medium">README.md</span>
+</div>
+</div>
+<!-- Code Content Area -->
+<div class="flex-1 overflow-auto custom-scrollbar code-editor relative">
+<div class="flex h-full">
+<!-- Line Numbers -->
+<div class="w-12 bg-slate-50 dark:bg-editor-bg border-r border-slate-200 dark:border-slate-800 flex flex-col items-center pt-4 text-slate-400 text-xs select-none">
+<span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span>
+</div>
+<!-- Editor Text -->
+<div class="flex-1 p-4 text-[14px] leading-relaxed dark:text-slate-300">
+<div class="flex gap-2"><span class="text-purple-400">import</span> <span class="text-blue-300">math</span></div>
+<div class="flex gap-2"><span class="text-slate-500 italic"># Write a function that returns the factorial of n</span></div>
+<div class="flex gap-2"><span class="text-purple-400">def</span> <span class="text-yellow-200">solution</span>(n: <span class="text-blue-300">int</span>) -&gt; <span class="text-blue-300">int</span>:</div>
+<div class="flex gap-2 ml-4"><span class="text-purple-400">if</span> n == <span class="text-orange-300">0</span> <span class="text-purple-400">or</span> n == <span class="text-orange-300">1</span>:</div>
+<div class="flex gap-2 ml-8"><span class="text-purple-400">return</span> <span class="text-orange-300">1</span></div>
+<div class="flex gap-2 ml-4"> </div>
+<div class="flex gap-2 ml-4">result = <span class="text-blue-300">math</span>.factorial(n)</div>
+<div class="flex gap-2 ml-4"><span class="text-blue-300">print</span>(<span class="text-green-300">f"Calculating factorial for {n}..."</span>)</div>
+<div class="flex gap-2 ml-4"><span class="text-purple-400">return</span> result</div>
+<div class="flex gap-2"> </div>
+<div class="flex gap-2"><span class="text-blue-300">print</span>(solution(<span class="text-orange-300">5</span>)) <span class="inline-block w-0.5 h-5 bg-primary animate-pulse ml-0.5"></span></div>
+</div>
+</div>
+<!-- Collaborative Cursors -->
+<div class="absolute top-28 left-64 group">
+<div class="w-0.5 h-5 bg-primary"></div>
+<div class="absolute top-[-20px] left-0 bg-primary text-[10px] text-white px-1.5 py-0.5 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                        Interviewer
+                    </div>
+</div>
+</div>
+</section>
+<!-- Right: Participants/Video (30%) -->
+<aside class="w-[30%] bg-slate-50 dark:bg-background-dark/30 flex flex-col p-4 gap-4 overflow-y-auto">
+<h3 class="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">videocam</span>
+                Participants
+            </h3>
+<!-- Participant 1 (Interviewer) -->
+<div class="relative aspect-video bg-slate-200 dark:bg-slate-800 rounded-xl overflow-hidden group border border-slate-300 dark:border-slate-700 shadow-sm">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-3 left-3 flex items-center gap-2">
+<span class="text-xs font-semibold text-white">Sarah Miller (Interviewer)</span>
+<div class="flex gap-1">
+<span class="w-1 h-2 bg-green-500 rounded-full"></span>
+<span class="w-1 h-3 bg-green-500 rounded-full"></span>
+<span class="w-1 h-2.5 bg-green-500 rounded-full"></span>
+</div>
+</div>
+<div class="absolute top-3 right-3 flex gap-2">
+<button class="p-1.5 bg-black/40 hover:bg-black/60 rounded-lg text-white backdrop-blur-sm transition-all">
+<span class="material-symbols-outlined text-lg">mic</span>
+</button>
+<button class="p-1.5 bg-black/40 hover:bg-black/60 rounded-lg text-white backdrop-blur-sm transition-all">
+<span class="material-symbols-outlined text-lg">videocam</span>
+</button>
+</div>
+<img class="w-full h-full object-cover" data-alt="Interviewer video feed in modern office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDowxEXV9kyLLGhbesmLs_V1vLdEb22EfZ8IMpH8nVwAycQrasX3wVcRUVHujn16ybs6YSxX90-yxUf7SW2yxtQpcbmtBG321VhiJtut9vU29wOiNhMAom5LclV1c5tuTC6Q2kaDn7CYt79l73hMIbbDvqLjxyZC5fggTxnjQKiCDUCrm1fU6YWw5sNBKOHZ69rNfPLB6rdDmIkhqY0-Qw6BVyF6oo8H8SaUSAtNZpRzwYTc5a7UxeBpe4z72BlsQ-DFzPFFFsN8MzG"/>
+</div>
+<!-- Participant 2 (Candidate) -->
+<div class="relative aspect-video bg-slate-200 dark:bg-slate-800 rounded-xl overflow-hidden group border border-slate-300 dark:border-slate-700 shadow-sm">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-3 left-3 flex items-center gap-2">
+<span class="text-xs font-semibold text-white">Alex Johnson (Candidate)</span>
+<span class="px-1.5 py-0.5 rounded bg-primary text-[10px] uppercase font-bold text-white tracking-wider">You</span>
+</div>
+<div class="absolute top-3 right-3 flex gap-2">
+<button class="p-1.5 bg-black/40 hover:bg-black/60 rounded-lg text-white backdrop-blur-sm transition-all">
+<span class="material-symbols-outlined text-lg">mic</span>
+</button>
+<button class="p-1.5 bg-black/40 hover:bg-black/60 rounded-lg text-white backdrop-blur-sm transition-all">
+<span class="material-symbols-outlined text-lg">videocam</span>
+</button>
+</div>
+<img class="w-full h-full object-cover" data-alt="Candidate video feed at desk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7DZY1U2LkrKsNIEcPUvsWGLLaG353aBxeTl_GGlmYtSb7nhjEdjA4DRRAzzpyvs8XWXcnF0V-F31ylzqlXkIVBC3iuM1iojZAVLnUeUfrp4URWSPmb1p-ab1RXGdPsHA_m0JWWT_xSS4fgcOB7SLzDrjk89yULh9q1KAMFz2tifYMC3O3Uw_0YGb3dkT0MtGf403uqIeL14qkwAW6Y-VTY3Djy7W4Q27LNO3fSIEh1qkssakkwN-sWQpqI2Lbbsnil6qRLyYbYbmS"/>
+</div>
+<!-- Chat / Notes Tabs Toggle (Optional Placeholder) -->
+<div class="mt-auto pt-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex gap-2">
+<button class="flex-1 py-2 rounded-lg bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider">Chat (2)</button>
+<button class="flex-1 py-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-500 text-xs font-bold uppercase tracking-wider">Interview Notes</button>
+</div>
+</div>
+</aside>
+</main>
+<!-- Console Output (Bottom Pane) -->
+<footer class="h-48 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark flex flex-col">
+<div class="flex items-center justify-between px-4 py-2 bg-slate-50 dark:bg-background-dark border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">terminal</span>
+<span class="text-xs font-bold uppercase tracking-widest text-slate-500">Console Output</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[10px] px-2 py-0.5 rounded-full bg-green-500/10 text-green-500 font-bold">READY</span>
+<span class="text-[10px] text-slate-400">Exec: 0.02s</span>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-400">
+<span class="material-symbols-outlined text-lg">block</span>
+</button>
+<button class="p-1 rounded hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-400">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+</div>
+<div class="flex-1 overflow-auto p-4 font-mono text-sm custom-scrollbar dark:bg-black/20">
+<div class="text-slate-400 mb-1">$ python solution.py</div>
+<div class="text-white mb-1">Calculating factorial for 5...</div>
+<div class="text-green-400 font-bold mb-1">120</div>
+<div class="text-slate-500 italic mt-4">--- Execution finished with exit code 0 ---</div>
+</div>
+</footer>
+</body></html>

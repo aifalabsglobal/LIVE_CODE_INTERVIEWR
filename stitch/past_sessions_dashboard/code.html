@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Past Sessions Dashboard | InterviewPlatform</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased font-display">
+<div class="flex min-h-screen">
+<!-- Sidebar Navigation -->
+<aside class="w-64 border-r border-slate-200 dark:border-slate-800 flex flex-col bg-white dark:bg-slate-900/50">
+<div class="p-6 flex items-center gap-3">
+<div class="size-10 bg-primary rounded-lg flex items-center justify-center text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">terminal</span>
+</div>
+<div>
+<h1 class="font-bold text-lg tracking-tight">InterviewPlatform</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Technical Hiring</p>
+</div>
+</div>
+<nav class="flex-1 px-4 mt-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-semibold transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm">All Sessions</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">person_search</span>
+<span class="text-sm">My Interviews</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="text-sm">Analytics</span>
+</a>
+<div class="pt-4 pb-2 px-3">
+<p class="text-[10px] uppercase font-bold tracking-widest text-slate-400">Administration</p>
+</div>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm">Team Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="text-sm">Templates</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors">
+<img class="size-8 rounded-full border border-slate-300 dark:border-slate-700" data-alt="User avatar of the current session user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3wYTBJ43nPa0RGC3_tyrvt5S7kcdM5iy7_MLpHQ-Iee2r55Py85f8WZLdC0Qj1aza9W597aAL4zJ666L-ovNx2pX4cyp-ersjUKe0AXF_AtfNwonQ8UC0uaaEUlhj1oFTM4SI1UpnFyu1wU6HoECztSmQoTIgT4K3NJ3z7MAlkDXgqfUfYXkMYdNL7HjCVi7mS3FogQi_c156gB8-vqE7hRbGBdRCnqOyZVPaNYEkzgH1BaVTRJyee6TsQevAkLVzOt1_NdTtgrS0"/>
+<div class="flex-1 overflow-hidden">
+<p class="text-sm font-semibold truncate">David Miller</p>
+<p class="text-xs text-slate-500 truncate italic">Senior Architect</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-sm">more_vert</span>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-screen overflow-hidden">
+<!-- Header -->
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md flex items-center justify-between px-8 shrink-0">
+<div class="flex items-center gap-2">
+<h2 class="text-xl font-bold">Past Sessions</h2>
+<span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-500 rounded text-[10px] font-bold">HISTORICAL</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-sm">add</span>
+                        New Session
+                    </button>
+</div>
+</header>
+<!-- Scrollable Area -->
+<div class="flex-1 overflow-y-auto p-8 space-y-8">
+<!-- Metrics Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-xl shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<span class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Interviews</span>
+<span class="p-2 bg-primary/10 text-primary rounded-lg"><span class="material-symbols-outlined">group</span></span>
+</div>
+<div class="flex items-end gap-3">
+<span class="text-3xl font-bold">1,248</span>
+<span class="text-emerald-500 text-sm font-bold flex items-center gap-0.5 mb-1">
+<span class="material-symbols-outlined text-xs">trending_up</span>
+                                12%
+                            </span>
+</div>
+<p class="text-slate-400 text-xs mt-2">Historical count since launch</p>
+</div>
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-xl shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<span class="text-slate-500 dark:text-slate-400 text-sm font-medium">Pass Rate</span>
+<span class="p-2 bg-emerald-500/10 text-emerald-500 rounded-lg"><span class="material-symbols-outlined">check_circle</span></span>
+</div>
+<div class="flex items-end gap-3">
+<span class="text-3xl font-bold">64%</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full mt-4 overflow-hidden">
+<div class="bg-emerald-500 h-full rounded-full" style="width: 64%"></div>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-xl shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<span class="text-slate-500 dark:text-slate-400 text-sm font-medium">Average Score</span>
+<span class="p-2 bg-amber-500/10 text-amber-500 rounded-lg"><span class="material-symbols-outlined">grade</span></span>
+</div>
+<div class="flex items-end gap-3">
+<span class="text-3xl font-bold">7.8<span class="text-lg text-slate-500 font-normal">/10</span></span>
+</div>
+<p class="text-slate-400 text-xs mt-2">Based on code &amp; soft skills</p>
+</div>
+</div>
+<!-- Table Section -->
+<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm overflow-hidden">
+<!-- Table Actions -->
+<div class="p-4 border-b border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4">
+<div class="flex-1 min-w-[300px] relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 focus:ring-primary focus:border-primary rounded-lg pl-10 text-sm placeholder:text-slate-500" placeholder="Search candidates or interviewers..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                                Filter
+                            </button>
+<button class="flex items-center gap-2 px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-sm">download</span>
+                                Export
+                            </button>
+</div>
+</div>
+<!-- Table Container -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800">
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Candidate Name</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Date</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Interviewer</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Final Score</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img class="size-8 rounded-full" data-alt="Candidate Sarah Chen profile image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCq_jJMMsK-qbpDL4mDMi0AHbfROIanifxaC_2HcIWwPk0Y54K9Y-RMx2P2XVFhd3EjUAEwguiJHvyxubT9EK9SUE6stwWPmbgEXTas0QF9_aCh4nolFY5CEE-yBqO-Plx5jWdgecsLUHp6QlbYaIyNlkAsyodcqiAR0gMRsirGJ9UWMvkPg7PKjKcMqw6TvllkjBCoB0goi3M96ntPPOXI7CUSKBE_1i7cL8vH6-CL0a6Dj6ZnSoB3J_0vnNCNEP9jyPXV8k_VVSCU"/>
+<div>
+<p class="text-sm font-semibold">Sarah Chen</p>
+<p class="text-[11px] text-slate-400">Full Stack Engineer</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Oct 24, 2023</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-primary/20 flex items-center justify-center text-[10px] font-bold text-primary">DM</div>
+<span class="text-sm">David Miller</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                                            Completed
+                                        </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col items-center gap-1">
+<span class="text-sm font-bold">85</span>
+<div class="w-16 h-1 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 85%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:text-primary/80 text-xs font-bold underline underline-offset-4">View Report</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img class="size-8 rounded-full" data-alt="Candidate Alex Rivera profile image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCffnqMj25vc-lxLRildbBvQCccpcLNq1aQXnpiL6BblQEOcoW9YB1a1qAoEwv6D7MvWe8UWPNM-T2MjA0p1WTO6OnX0waDcRFtJh2w39FaADZjJFTYNGv61dur5kwdQj2Ed0tXFqb1-JwMVj32zxge67ePDfIRKPy_Hd7giiwHSCtbcXSSq3IlLiSrzM9YOZDfqJXDpDm4DpHzWt45k5R1eERH6J24LVhIQNiQW18hHYmybx6VC89cqkQHW9czXTdy7Q6d5eTNOZxx"/>
+<div>
+<p class="text-sm font-semibold">Alex Rivera</p>
+<p class="text-[11px] text-slate-400">DevOps Specialist</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Oct 23, 2023</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-emerald-500/20 flex items-center justify-center text-[10px] font-bold text-emerald-500">SC</div>
+<span class="text-sm">Sarah Chen</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-amber-500/10 text-amber-500 border border-amber-500/20">
+                                            In-Progress
+                                        </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col items-center gap-1">
+<span class="text-sm font-bold text-slate-400">--</span>
+<div class="w-16 h-1 bg-slate-100 dark:bg-slate-800 rounded-full"></div>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="bg-primary text-white px-3 py-1.5 rounded-lg text-[11px] font-bold shadow-sm shadow-primary/20">Resume Session</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img class="size-8 rounded-full" data-alt="Candidate Jordan Smith profile image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCj55EWwCh1CfmllWYNYpsrsfr0o29uxRyGdjaeddViv3JMWdlUC4u2m98vcaM0anZ5eK1LTCdNYJxxpy1EVUE6qNHw1kL1gEU7fMa5qNL4jXTVn1BPhp3We_R4ULuHV4luVMv7zJp-TkmHaAesr10gpjPxRUk2cqjHrPNh6tlLqfihm1G1JvCTFV6EKIyGs24JXseiMFGN4zasbovyS8sDneq6NYRr8zRSWN7euCQV64hzHZ_2eNE7jk3MbPy6pH8-lWgDsvg8Zo8R"/>
+<div>
+<p class="text-sm font-semibold">Jordan Smith</p>
+<p class="text-[11px] text-slate-400">Backend Lead</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Oct 22, 2023</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-purple-500/20 flex items-center justify-center text-[10px] font-bold text-purple-500">MK</div>
+<span class="text-sm">Michael Kim</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                                            Completed
+                                        </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col items-center gap-1">
+<span class="text-sm font-bold">92</span>
+<div class="w-16 h-1 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="bg-primary h-full" style="width: 92%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:text-primary/80 text-xs font-bold underline underline-offset-4">View Report</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img class="size-8 rounded-full" data-alt="Candidate Taylor Wong profile image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYsM8_8RmC9Oo6HDvNmIGR-vGIFuJFA-azZVz64eDAw07RXtyCWSlIB3oMxCh5qglSITcBerUQl7vCdgNYs6HBo7z3NeOa4_dXLvZz6F34GJVV3dCLxeb69LN0EYHMa0taqENVZN9bp2bOJI5fe4_TWeqYz8ol03iiq20vaK75TlbgDOWIU0X3LoYApRuG3-kg9HdND-LAkHqw9LdDNe1SsEZPcvdainektiH5EVaLAoxQAmQI5eoBmBUHBUlD-4f0ZM9yQC7uRTmi"/>
+<div>
+<p class="text-sm font-semibold">Taylor Wong</p>
+<p class="text-[11px] text-slate-400">Junior Developer</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Oct 21, 2023</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="size-6 rounded-full bg-primary/20 flex items-center justify-center text-[10px] font-bold text-primary">DM</div>
+<span class="text-sm">David Miller</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide bg-rose-500/10 text-rose-500 border border-rose-500/20">
+                                            Cancelled
+                                        </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col items-center gap-1">
+<span class="text-sm font-bold text-slate-400">0</span>
+<div class="w-16 h-1 bg-slate-100 dark:bg-slate-800 rounded-full"></div>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 text-xs font-bold">View Details</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 flex items-center justify-between">
+<p class="text-xs text-slate-500">Showing <span class="font-bold text-slate-900 dark:text-slate-100">1-4</span> of <span class="font-bold text-slate-900 dark:text-slate-100">1,248</span> sessions</p>
+<div class="flex items-center gap-2">
+<button class="p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-400 hover:text-primary transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<div class="flex items-center gap-1">
+<button class="size-8 bg-primary text-white text-xs font-bold rounded-lg shadow-md shadow-primary/20">1</button>
+<button class="size-8 text-xs font-bold rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">2</button>
+<button class="size-8 text-xs font-bold rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">3</button>
+<span class="px-1 text-slate-400">...</span>
+<button class="size-8 text-xs font-bold rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">312</button>
+</div>
+<button class="p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

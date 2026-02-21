@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Interview Session Report | #INT-8842-X</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Sticky Top Navigation Bar -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-6 md:px-10 py-3">
+<div class="flex items-center gap-4">
+<div class="text-primary">
+<span class="material-symbols-outlined text-3xl">terminal</span>
+</div>
+<div class="flex flex-col">
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">Interview Session #INT-8842-X</h2>
+<p class="text-xs text-slate-500 dark:text-slate-400">Candidate: Alex Rivera • Senior Frontend Engineer</p>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors">
+<span class="truncate">Copy Report</span>
+</button>
+<button class="hidden sm:flex cursor-pointer items-center justify-center rounded-lg h-10 bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">download</span>
+</button>
+<button class="hidden sm:flex cursor-pointer items-center justify-center rounded-lg h-10 bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-slate-100 px-3 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</header>
+<main class="flex-1 px-4 md:px-10 py-6 max-w-[1400px] mx-auto w-full">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 mb-6 text-sm">
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors" href="#">Interviews</a>
+<span class="material-symbols-outlined text-sm text-slate-400">chevron_right</span>
+<span class="text-slate-900 dark:text-slate-100 font-medium">Session Report</span>
+</nav>
+<!-- Upper Section: Video & Code Timeline -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+<!-- Video Playback Container (Left) -->
+<div class="lg:col-span-2 flex flex-col gap-4">
+<div class="relative group bg-black aspect-video rounded-xl overflow-hidden shadow-xl border border-slate-200 dark:border-slate-800">
+<img alt="Interview Video Stream" class="w-full h-full object-cover opacity-60" data-alt="Video player showing a remote coding interview session screen share" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiCv2LlOxGM16YbEWs4lP0HmU2NRIiTUX-QkuN5JFCKIcX76Q-lkb_GIpk2hHubYWMBvNUMhTsszaXTurd6SHAXZPBLPay6q9H_64BZyP_QyyA4_XKoxux1bdig7DkOSbJMYwHWCCJ9PiU-UboKRJc4FGxfD8lHNl0ookeQ2dZJeMXL_5ep1trWSz55Ci6Hz3UZ7vU9qWKiaC0pwQui8mTaQW0wLNgdizfIQ1o_7xKGjbeJxMVgDHkQVOXMm4VLvoGa0YbbAx_pM84"/>
+<!-- Video Controls Overlay -->
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="flex shrink-0 items-center justify-center rounded-full size-20 bg-primary/90 text-white shadow-2xl hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1">play_arrow</span>
+</button>
+</div>
+<div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-6 py-4">
+<div class="flex items-center gap-4 mb-2">
+<div class="h-1.5 flex-1 rounded-full bg-slate-600/50 overflow-hidden">
+<div class="h-full bg-primary w-1/3 rounded-full relative">
+<div class="absolute right-0 top-1/2 -translate-y-1/2 size-3 bg-white rounded-full shadow-lg"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between text-white text-xs font-medium">
+<span>15:40 / 45:00</span>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-sm cursor-pointer">volume_up</span>
+<span class="material-symbols-outlined text-sm cursor-pointer">settings</span>
+<span class="material-symbols-outlined text-sm cursor-pointer">fullscreen</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Saved Code Versions Timeline (Right) -->
+<div class="bg-slate-100 dark:bg-slate-900/50 rounded-xl p-6 border border-slate-200 dark:border-slate-800 flex flex-col h-full">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-lg font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">history</span>
+                                Saved Code Versions
+                            </h3>
+<span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full font-bold tracking-wider">3 SNAPSHOTS</span>
+</div>
+<div class="space-y-4 relative before:absolute before:left-[19px] before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-200 dark:before:bg-slate-800">
+<!-- Snapshot 1 -->
+<div class="relative pl-10 group cursor-pointer">
+<div class="absolute left-0 top-1.5 size-10 flex items-center justify-center bg-slate-200 dark:bg-slate-800 rounded-full border-4 border-background-light dark:border-background-dark z-10 group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-sm">code</span>
+</div>
+<div class="p-3 rounded-lg hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors">
+<p class="font-bold text-sm">Initial Boilerplate</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">02:15 • React, CSS Modules</p>
+</div>
+</div>
+<!-- Snapshot 2 (Active) -->
+<div class="relative pl-10 group cursor-pointer">
+<div class="absolute left-0 top-1.5 size-10 flex items-center justify-center bg-primary text-white rounded-full border-4 border-background-light dark:border-background-dark z-10">
+<span class="material-symbols-outlined text-sm">data_object</span>
+</div>
+<div class="p-3 rounded-lg bg-primary/10 border border-primary/20 shadow-sm">
+<p class="font-bold text-sm text-primary">Logic Implementation</p>
+<p class="text-xs text-primary/70 mt-1">15:40 • Custom Hooks, API Integration</p>
+</div>
+</div>
+<!-- Snapshot 3 -->
+<div class="relative pl-10 group cursor-pointer">
+<div class="absolute left-0 top-1.5 size-10 flex items-center justify-center bg-slate-200 dark:bg-slate-800 rounded-full border-4 border-background-light dark:border-background-dark z-10 group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+</div>
+<div class="p-3 rounded-lg hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors">
+<p class="font-bold text-sm">Final Optimization</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1">42:10 • Unit Tests, Accessibility</p>
+</div>
+</div>
+</div>
+<button class="mt-auto w-full py-3 text-sm font-bold border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-lg text-slate-500 dark:text-slate-400 hover:border-primary/50 hover:text-primary transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">unfold_more</span>
+                            View Full Code Diff
+                        </button>
+</div>
+</div>
+<!-- Lower Section: Transcript and AI Insights -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Transcript Section -->
+<div class="lg:col-span-2 bg-slate-100 dark:bg-slate-900/30 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col h-[600px]">
+<div class="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-900/50">
+<h3 class="font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">description</span>
+                                Transcript
+                            </h3>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="pl-9 pr-4 py-1.5 text-xs bg-slate-200 dark:bg-slate-800 border-none rounded-full focus:ring-1 focus:ring-primary w-48" placeholder="Search keywords..." type="text"/>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-6">
+<!-- Dialogue 1 -->
+<div class="flex gap-4">
+<div class="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs shrink-0">I</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-bold text-sm">Interviewer</span>
+<span class="text-[10px] text-slate-500 font-medium">15:35</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                                        "That's a good approach. How would you handle state management if this application needed to scale to dozens of nested components?"
+                                    </p>
+</div>
+</div>
+<!-- Dialogue 2 -->
+<div class="flex gap-4">
+<div class="size-8 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-500 font-bold text-xs shrink-0">AR</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-bold text-sm">Alex Rivera</span>
+<span class="text-[10px] text-slate-500 font-medium">15:42</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                                        "I'd likely look at the React Context API for simple prop-drilling issues, but for more complex state I'd implement Zustand or Redux Toolkit. Given the current scope, Context seems sufficient."
+                                    </p>
+</div>
+</div>
+<!-- Dialogue 3 -->
+<div class="flex gap-4">
+<div class="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xs shrink-0">I</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-bold text-sm">Interviewer</span>
+<span class="text-[10px] text-slate-500 font-medium">16:10</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                                        "Makes sense. Can you walk me through the optimization you just added to the useFetch hook?"
+                                    </p>
+</div>
+</div>
+<!-- Dialogue 4 -->
+<div class="flex gap-4">
+<div class="size-8 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-500 font-bold text-xs shrink-0">AR</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-bold text-sm">Alex Rivera</span>
+<span class="text-[10px] text-slate-500 font-medium">16:25</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                                        "Certainly. I implemented a cleanup function to abort the fetch request if the component unmounts before the promise resolves. This prevents memory leaks and potential state updates on unmounted components."
+                                    </p>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Insights Panel -->
+<div class="flex flex-col gap-6">
+<!-- Summary Card -->
+<div class="bg-primary/5 border border-primary/20 rounded-xl p-5">
+<h3 class="text-sm font-bold text-primary mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">auto_awesome</span>
+                                AI Summary
+                            </h3>
+<p class="text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                                Candidate demonstrated strong mastery of React patterns and state management. They effectively communicated their decision-making process and showed high awareness of performance bottlenecks and memory management.
+                            </p>
+</div>
+<!-- Topics Card -->
+<div class="bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl p-5">
+<h3 class="text-sm font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">label</span>
+                                Key Topics
+                            </h3>
+<div class="flex flex-wrap gap-2">
+<span class="px-2.5 py-1 rounded bg-slate-200 dark:bg-slate-800 text-xs font-medium">React Hooks</span>
+<span class="px-2.5 py-1 rounded bg-slate-200 dark:bg-slate-800 text-xs font-medium">Performance</span>
+<span class="px-2.5 py-1 rounded bg-slate-200 dark:bg-slate-800 text-xs font-medium">State Management</span>
+<span class="px-2.5 py-1 rounded bg-slate-200 dark:bg-slate-800 text-xs font-medium">Data Fetching</span>
+<span class="px-2.5 py-1 rounded bg-slate-200 dark:bg-slate-800 text-xs font-medium">Clean Code</span>
+</div>
+</div>
+<!-- Action Items Card -->
+<div class="bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl p-5 grow">
+<h3 class="text-sm font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">task_alt</span>
+                                Recommended Actions
+                            </h3>
+<ul class="space-y-3">
+<li class="flex items-start gap-3">
+<div class="mt-0.5 size-4 rounded-full border border-primary flex items-center justify-center shrink-0">
+<div class="size-2 bg-primary rounded-full"></div>
+</div>
+<span class="text-sm text-slate-600 dark:text-slate-300">Move to System Design round</span>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-0.5 size-4 rounded-full border border-slate-400 flex items-center justify-center shrink-0"></div>
+<span class="text-sm text-slate-600 dark:text-slate-300">Share code snapshots with Tech Lead</span>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-0.5 size-4 rounded-full border border-slate-400 flex items-center justify-center shrink-0"></div>
+<span class="text-sm text-slate-600 dark:text-slate-300">Verify references for 2021-2023 roles</span>
+</li>
+</ul>
+</div>
+<!-- Overall Grade Block -->
+<div class="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">Recommendation</span>
+<span class="text-lg font-bold text-emerald-500">Strong Hire</span>
+</div>
+<div class="size-12 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-xl">
+                                A
+                            </div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Meta -->
+<footer class="mt-auto px-10 py-6 border-t border-slate-200 dark:border-slate-800">
+<div class="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-500">
+<p>© 2024 CodeCollab Platforms Inc. All interview data is encrypted and secure.</p>
+<div class="flex gap-6">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">Support</a>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>

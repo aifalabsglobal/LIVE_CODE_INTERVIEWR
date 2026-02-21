@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Snippet Details &amp; Preview | Interview Snippets</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .code-editor { font-family: 'JetBrains Mono', monospace; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 px-6 py-3 bg-white dark:bg-background-dark z-10">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-primary">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">code_blocks</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight">Interview Snippets</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-primary text-sm font-semibold border-b-2 border-primary pb-1" href="#">Library</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-white text-sm font-medium transition-colors" href="#">Interviews</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-white text-sm font-medium transition-colors" href="#">Templates</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-white text-sm font-medium transition-colors" href="#">Analytics</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="pl-9 pr-4 py-1.5 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary w-64 text-slate-200" placeholder="Search snippets..." type="text"/>
+</div>
+<div class="h-8 w-px bg-slate-200 dark:bg-slate-800 mx-2"></div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 rounded-lg text-sm font-bold transition-colors">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+<span>Edit Snippet</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-blue-600 text-white rounded-lg text-sm font-bold shadow-lg shadow-primary/20 transition-all">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+<span>Use in Interview</span>
+</button>
+</div>
+<div class="size-9 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center overflow-hidden border border-slate-300 dark:border-slate-700">
+<img alt="User Profile" class="size-full" data-alt="User profile avatar with a friendly face" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9W2YCXTVIDjUVEsYbzs1DyYUiSutSUmuf0uLpNVSxIE_k9TviqBGr3EVjoD5cNv-S72QoLnqpTcLLmbngzTcuxIXgu23Ya8ESjocjuahErKYcke87jBcly4IVDZlKV5kEpddjiLBwobPTsdwmSpb6Pc9OfupnCB-t2zg5LKPuIbFQYc7pMWY3MseJsw5zI8KYH6FbxSKl5qAaD6yjwtl22kfvG2ukVS60A3bB5DxnxYKRyWAxN4_iRfXX191bX4SCoblagBkKL3xF"/>
+</div>
+</div>
+</header>
+<!-- Breadcrumb Area -->
+<div class="px-6 py-2 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+<div class="flex items-center gap-2 text-xs font-medium uppercase tracking-wider">
+<a class="text-slate-500 hover:text-primary" href="#">Snippet Library</a>
+<span class="text-slate-400">/</span>
+<span class="text-slate-900 dark:text-slate-200">Invert Binary Tree</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 px-2 py-1 bg-green-500/10 text-green-600 dark:text-green-400 rounded text-[10px] font-bold">
+<span class="size-1.5 rounded-full bg-green-500"></span>
+                STABLE
+            </div>
+<div class="text-slate-500 text-[10px] font-medium">Last modified 2 days ago</div>
+</div>
+</div>
+<!-- Main Content Area: Split View -->
+<main class="flex flex-1 overflow-hidden">
+<!-- Left Pane: Documentation -->
+<section class="w-[450px] min-w-[400px] border-r border-slate-200 dark:border-slate-800 flex flex-col bg-white dark:bg-background-dark overflow-y-auto">
+<div class="p-8">
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="px-2 py-1 bg-orange-100 dark:bg-orange-500/20 text-orange-700 dark:text-orange-400 text-xs font-bold rounded">Medium</span>
+<span class="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-medium rounded">Trees</span>
+<span class="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-medium rounded">Recursion</span>
+<span class="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-medium rounded">DFS</span>
+</div>
+<h1 class="text-3xl font-black text-slate-900 dark:text-white mb-4 tracking-tight">Invert Binary Tree</h1>
+<div class="flex items-center gap-6 mb-8 py-4 border-y border-slate-100 dark:border-slate-800">
+<div class="flex flex-col">
+<span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Time Estimate</span>
+<span class="text-sm font-semibold">20 Minutes</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Success Rate</span>
+<span class="text-sm font-semibold text-green-500">68%</span>
+</div>
+</div>
+<div class="prose prose-slate dark:prose-invert max-w-none">
+<p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+                        Given the <code class="px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded font-mono text-sm">root</code> of a binary tree, invert the tree, and return its root.
+                    </p>
+<h3 class="text-lg font-bold mb-3 mt-8">Example 1:</h3>
+<div class="rounded-xl overflow-hidden mb-6 border border-slate-200 dark:border-slate-800">
+<div class="bg-slate-50 dark:bg-slate-900/50 p-4">
+<img alt="Tree Diagram" class="w-full rounded-lg" data-alt="Diagram showing a binary tree before and after inversion" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoGI0sO_mNEoZ_hJaAu0aODGB5jIDHKlwG9Fx4u8baC--xfp8SO9FxXtIDMK-4Hxn8n3D6eXhunOxXdS6ELnkwE2j3D-7E5f89URIv3TAcvO0kE7zDNClMh9UlHe7rZYF1ztonltUzBRGW5rxyX-dI3hp2uqdxGrK0lh2M5U-8LNb3mGDpheHMIT11Sb4lyOu2JMl9MgH-eFOZiCdd9dDZbassQ0naA8wBjfUr-jKuYLIQ7NyHKBnhxDe-ct30OT4-kb_pZBXK83gB"/>
+</div>
+<div class="bg-slate-100 dark:bg-slate-800 p-4 font-mono text-sm">
+<p><span class="text-primary font-bold">Input:</span> root = [4,2,7,1,3,6,9]</p>
+<p><span class="text-primary font-bold">Output:</span> [4,7,2,9,6,3,1]</p>
+</div>
+</div>
+<h3 class="text-lg font-bold mb-3 mt-8">Constraints:</h3>
+<ul class="space-y-2 list-disc pl-5 text-slate-600 dark:text-slate-300 text-sm">
+<li>The number of nodes in the tree is in the range <code class="px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded">[0, 100]</code>.</li>
+<li><code class="px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded">-100 &lt;= Node.val &lt;= 100</code>.</li>
+<li>Optimal time complexity: <code class="font-mono text-primary">O(n)</code>.</li>
+<li>Optimal space complexity: <code class="font-mono text-primary">O(h)</code> where h is height.</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- Right Pane: Code Editor Preview -->
+<section class="flex-1 flex flex-col bg-[#1e1e1e] relative">
+<!-- Editor Toolbar -->
+<div class="flex items-center justify-between px-4 h-12 bg-[#252526] border-b border-[#333333]">
+<div class="flex items-center gap-1">
+<div class="px-4 h-12 flex items-center gap-2 border-b-2 border-primary bg-[#1e1e1e] text-white text-sm">
+<span class="material-symbols-outlined text-blue-400 text-sm">javascript</span>
+<span>solution.ts</span>
+<span class="material-symbols-outlined text-xs text-slate-500 hover:text-white cursor-pointer ml-2">close</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="relative group">
+<button class="flex items-center gap-2 bg-[#333333] hover:bg-[#444444] px-3 py-1.5 rounded text-xs font-medium text-slate-300 transition-colors">
+<span>TypeScript</span>
+<span class="material-symbols-outlined text-xs">expand_more</span>
+</button>
+</div>
+<button class="text-slate-400 hover:text-white transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</div>
+<!-- Editor Content -->
+<div class="flex-1 flex overflow-hidden code-editor">
+<!-- Line Numbers -->
+<div class="w-12 py-4 flex flex-col items-center text-slate-600 text-xs select-none bg-[#1e1e1e]">
+<span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span>
+</div>
+<!-- Code Logic -->
+<div class="flex-1 py-4 px-2 text-sm leading-relaxed overflow-auto scrollbar-hide">
+<pre class="text-[#d4d4d4] whitespace-pre"><span class="text-[#6a9955]">/**
+ * Definition for a binary tree node.
+ * class TreeNode {
+ *     val: number
+ *     left: TreeNode | null
+ *     right: TreeNode | null
+ *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.left = (left===undefined ? null : left)
+ *         this.right = (right===undefined ? null : right)
+ *     }
+ * }
+ */</span>
+
+<span class="text-[#569cd6]">function</span> <span class="text-[#dcdcaa]">invertTree</span>(root: <span class="text-[#4ec9b0]">TreeNode</span> | <span class="text-[#569cd6]">null</span>): <span class="text-[#4ec9b0]">TreeNode</span> | <span class="text-[#569cd6]">null</span> {
+    <span class="text-[#6a9955]">/* Your code here */</span>
+    
+    <span class="text-[#c586c0]">return</span> root;
+};</pre>
+</div>
+</div>
+<!-- Editor Footer -->
+<div class="h-8 bg-[#007acc] flex items-center justify-between px-4 text-white text-[11px]">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">fork_right</span>
+<span>main*</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">sync</span>
+<span>0</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span>Spaces: 4</span>
+<span>UTF-8</span>
+<span>TypeScript JSX</span>
+</div>
+</div>
+<!-- Action Floating Overlay (Optional Visual Flair) -->
+<div class="absolute bottom-12 right-6 flex flex-col gap-3">
+<button class="size-10 bg-primary/90 backdrop-blur hover:bg-primary text-white rounded-full flex items-center justify-center shadow-xl transition-transform hover:scale-110 active:scale-95">
+<span class="material-symbols-outlined">content_copy</span>
+</button>
+<button class="size-10 bg-slate-800/90 backdrop-blur hover:bg-slate-700 text-white rounded-full flex items-center justify-center shadow-xl transition-transform hover:scale-110 active:scale-95">
+<span class="material-symbols-outlined">fullscreen</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Global Floating Action (Mobile only indicator or desktop shortcut) -->
+<div class="fixed bottom-6 left-1/2 -translate-x-1/2 md:hidden">
+<button class="bg-primary px-8 py-3 rounded-full text-white font-bold shadow-2xl flex items-center gap-2">
+<span class="material-symbols-outlined">play_arrow</span>
+            Start Interview
+        </button>
+</div>
+</body></html>
