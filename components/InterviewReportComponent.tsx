@@ -29,9 +29,9 @@ async function requestGenerateTranscript(recordingId: string) {
   return res.json();
 }
 
-async function getReportData(recordingId: string, type: string) {
-  const res = await fetch(`/api/report/${recordingId}/${type}`);
-  if (!res.ok) throw new Error(`Failed to fetch ${type}`);
+async function getBatchReport(recordingId: string) {
+  const res = await fetch(`/api/report/${recordingId}/all`);
+  if (!res.ok) throw new Error("Failed to fetch report");
   return res.json();
 }
 
@@ -119,6 +119,7 @@ export default function InterviewReportComponent() {
   useEffect(() => {
     if (!recordId || !interviewsDataList) return;
 
+    setTranscriptStatus("running");
     interviewsDataList.forEach((interview: any) => {
       getTranscript(interview.uuid)
         .then((transcript) => {
@@ -137,34 +138,90 @@ export default function InterviewReportComponent() {
           });
         });
     });
-
-    getReportData(recordId, "action-items")
-      .then(setActionItems)
-      .then(() => setActionItemsStatus("success"))
-      .catch(() => setActionItemsStatus("failed"));
-
-    getReportData(recordId, "follow-ups")
-      .then(setFollowUps)
-      .then(() => setFollowUpsStatus("success"))
-      .catch(() => setFollowUpsStatus("failed"));
-
-    getReportData(recordId, "questions")
-      .then(setQuestionsReport)
-      .then(() => setQuestionsStatus("success"))
-      .catch(() => setQuestionsStatus("failed"));
-
-    getReportData(recordId, "topics")
-      .then(setTopics)
-      .then(() => setTopicsStatus("success"))
-      .catch(() => setTopicsStatus("failed"));
-
-    getReportData(recordId, "summary")
-      .then(setSummary)
-      .then(() => setSummaryStatus("success"))
-      .catch(() => setSummaryStatus("failed"));
   }, [recordId, interviewsDataList]);
 
+  useEffect(() => {
+    if (!recordId || transcriptStatus !== "success") return;
+
+    setActionItemsStatus("running");
+    setFollowUpsStatus("running");
+    setQuestionsStatus("running");
+    setTopicsStatus("running");
+    setSummaryStatus("running");
+
+    getBatchReport(recordId)
+      .then((data: any) => {
+        if (data.summary) {
+          setSummary(data.summary);
+          setSummaryStatus("success");
+        } else setSummaryStatus("failed");
+        if (data.topics) {
+          setTopics(data.topics);
+          setTopicsStatus("success");
+        } else setTopicsStatus("failed");
+        if (data.questions) {
+          setQuestionsReport(data.questions);
+          setQuestionsStatus("success");
+        } else setQuestionsStatus("failed");
+        if (data["follow-ups"]) {
+          setFollowUps(data["follow-ups"]);
+          setFollowUpsStatus("success");
+        } else setFollowUpsStatus("failed");
+        if (data["action-items"]) {
+          setActionItems(data["action-items"]);
+          setActionItemsStatus("success");
+        } else setActionItemsStatus("failed");
+      })
+      .catch(() => {
+        setActionItemsStatus("failed");
+        setFollowUpsStatus("failed");
+        setQuestionsStatus("failed");
+        setTopicsStatus("failed");
+        setSummaryStatus("failed");
+      });
+  }, [recordId, transcriptStatus]);
+
   const sessionLabel = roomId ? `#${roomId}` : "#—";
+
+  const retryReport = () => {
+    if (!recordId) return;
+    setActionItemsStatus("running");
+    setFollowUpsStatus("running");
+    setQuestionsStatus("running");
+    setTopicsStatus("running");
+    setSummaryStatus("running");
+    getBatchReport(recordId)
+      .then((data: any) => {
+        if (data.summary) {
+          setSummary(data.summary);
+          setSummaryStatus("success");
+        } else setSummaryStatus("failed");
+        if (data.topics) {
+          setTopics(data.topics);
+          setTopicsStatus("success");
+        } else setTopicsStatus("failed");
+        if (data.questions) {
+          setQuestionsReport(data.questions);
+          setQuestionsStatus("success");
+        } else setQuestionsStatus("failed");
+        if (data["follow-ups"]) {
+          setFollowUps(data["follow-ups"]);
+          setFollowUpsStatus("success");
+        } else setFollowUpsStatus("failed");
+        if (data["action-items"]) {
+          setActionItems(data["action-items"]);
+          setActionItemsStatus("success");
+        } else setActionItemsStatus("failed");
+      })
+      .catch(() => {
+        setActionItemsStatus("failed");
+        setFollowUpsStatus("failed");
+        setQuestionsStatus("failed");
+        setTopicsStatus("failed");
+        setSummaryStatus("failed");
+      });
+  };
+
   const copyReport = () => {
     const text = [
       `Session ${sessionLabel}`,
@@ -216,6 +273,17 @@ export default function InterviewReportComponent() {
           </div>
         </div>
         <div className="flex gap-3">
+          {(summaryStatus === "failed" ||
+            topicsStatus === "failed" ||
+            actionItemsStatus === "failed") && (
+            <button
+              type="button"
+              onClick={retryReport}
+              className="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-slate-700 text-slate-100 text-sm font-medium hover:bg-slate-600 transition-colors"
+            >
+              Retry AI Report
+            </button>
+          )}
           <button
             type="button"
             onClick={copyReport}
