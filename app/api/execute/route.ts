@@ -49,6 +49,8 @@ export async function POST(request: NextRequest) {
     language,
     version,
     files: [{ content: sourceCode }],
+    run_timeout: 3000, // Maximum 3 seconds for running code (Piston engine limit)
+    compile_timeout: 10000, // Maximum 10 seconds for compiling
   };
 
   try {
@@ -56,6 +58,7 @@ export async function POST(request: NextRequest) {
       method: "POST",
       headers,
       body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(12000), // Abort fetch if it takes more than 12s total
     });
 
     const data = await res.json().catch(() => ({}));

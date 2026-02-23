@@ -37,13 +37,14 @@ export default function WhiteboardPage() {
                     </div>
                 </div>
                 <div className="flex items-center gap-3">
-                    <Link
-                        href={`/room/${roomId}`}
+                    <button
+                        type="button"
+                        onClick={() => window.close()}
                         className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
                     >
-                        <span className="material-symbols-outlined text-lg">code</span>
-                        Back to Editor
-                    </Link>
+                        <span className="material-symbols-outlined text-lg">arrow_back</span>
+                        Close Whiteboard
+                    </button>
                     <button
                         type="button"
                         className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-red-600 hover:bg-red-50 border border-red-200 rounded-lg transition-colors"
@@ -71,8 +72,8 @@ export default function WhiteboardPage() {
                             type="button"
                             onClick={() => setActiveTool(tool.label)}
                             className={`p-2.5 rounded-lg transition-colors ${activeTool === tool.label
-                                    ? "bg-primary/10 text-primary"
-                                    : "text-slate-500 hover:text-slate-700 hover:bg-slate-100"
+                                ? "bg-primary/10 text-primary"
+                                : "text-slate-500 hover:text-slate-700 hover:bg-slate-100"
                                 }`}
                             title={tool.label}
                         >

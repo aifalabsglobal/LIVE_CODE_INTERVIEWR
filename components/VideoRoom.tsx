@@ -53,24 +53,31 @@ export function VideoTiles({ layout = "grid" }: { layout?: "grid" | "vertical" }
     { source: Track.Source.Camera, withPlaceholder: true }
   ]);
 
+  const getGridClass = (count: number) => {
+    if (count <= 1) return "grid-cols-1 place-items-center";
+    if (count === 2) return "grid-cols-1 md:grid-cols-2 place-items-center";
+    if (count <= 4) return "grid-cols-2 place-items-center";
+    return "grid-cols-2 md:grid-cols-3 lg:grid-cols-4 place-items-center";
+  };
+
   return (
     <VideoConferenceErrorBoundary>
       <div
         className={`${layout === "grid"
-            ? "grid grid-cols-1 gap-2"
-            : "flex flex-col gap-3"
-          } p-2 h-full overflow-y-auto custom-scrollbar ${layout === "grid" ? "bg-black" : ""}`}
+          ? `grid ${getGridClass(tracks.length)} gap-4 w-full content-center`
+          : "flex flex-col gap-3"
+          } p-4 h-full overflow-y-auto custom-scrollbar ${layout === "grid" ? "bg-black" : ""}`}
       >
         {tracks.map((track) => (
           <ParticipantTile
             key={`${track.participant.identity}-${track.source}`}
             trackRef={track}
-            className="w-full aspect-video rounded-lg overflow-hidden shrink-0 bg-slate-800"
+            className={`${layout === "grid" && tracks.length === 1 ? "max-w-5xl max-h-[85vh]" : ""} w-full h-auto aspect-video rounded-xl overflow-hidden shrink-0 bg-slate-900 shadow-2xl border border-slate-800 object-contain`}
           />
         ))}
         {tracks.length === 0 && (
-          <div className={`flex items-center justify-center ${layout === "grid" ? "aspect-video" : "h-32"} text-slate-500 text-xs text-center p-4`}>
-            Waiting for cameras...
+          <div className={`col-span-full flex items-center justify-center ${layout === "grid" ? "h-[50vh]" : "h-32"} text-slate-500 text-sm font-medium text-center p-4`}>
+            Waiting for participants to join with camera...
           </div>
         )}
       </div>

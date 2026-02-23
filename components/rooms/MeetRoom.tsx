@@ -1,0 +1,251 @@
+"use client";
+
+import dynamic from "next/dynamic";
+import { Suspense, useState } from "react";
+import toast from "react-hot-toast";
+import { useLiveKitToken } from "@/components/VideoRoom";
+
+const VideoRoom = dynamic(() => import("@/components/VideoRoom"), { ssr: false });
+const VideoTiles = dynamic(() => import("@/components/VideoRoom").then(m => m.VideoTiles), { ssr: false });
+
+import {
+  LiveKitRoom,
+  useLocalParticipant,
+  RoomAudioRenderer,
+  useTracks,
+  VideoTrack,
+} from "@livekit/components-react";
+import { Track, ScreenSharePresets } from "livekit-client";
+
+function MeetHeader({ roomId, userId }: { roomId: string, userId: string }) {
+  const { localParticipant } = useLocalParticipant();
+  const [isMicOn, setIsMicOn] = useState(true);
+  const [isCamOn, setIsCamOn] = useState(true);
+  const [isScreenSharing, setIsScreenSharing] = useState(false);
+  const [showMoreMenu, setShowMoreMenu] = useState(false);
+
+  const toggleMic = async () => {
+    const enabled = !isMicOn;
+    await localParticipant.setMicrophoneEnabled(enabled);
+    setIsMicOn(enabled);
+  };
+
+  const toggleCam = async () => {
+    const enabled = !isCamOn;
+    await localParticipant.setCameraEnabled(enabled);
+    setIsCamOn(enabled);
+  };
+
+  const toggleScreenShare = async () => {
+    const enabled = !isScreenSharing;
+    try {
+      await localParticipant.setScreenShareEnabled(enabled, {
+        resolution: ScreenSharePresets.original,
+      });
+      setIsScreenSharing(enabled);
+    } catch (e) {
+      toast.error("Failed to share screen");
+      console.error(e);
+    }
+  };
+
+  const handleEndSession = () => {
+    if (confirm("Are you sure you want to end this meet session?")) {
+      window.location.href = "/";
+    }
+  };
+
+  const handleCopyLink = () => {
+    const roomURL = `${window.location.origin}/room/meet/${roomId}?userId=${encodeURIComponent(userId)}`;
+    navigator.clipboard.writeText(roomURL);
+    toast.success("Meet link copied!");
+    setShowMoreMenu(false);
+  };
+
+  return (
+    <header className="flex items-center gap-8 px-6 py-3 border-b border-slate-800 bg-background-dark z-10">
+      <div className="flex items-center gap-3">
+        <span className="material-symbols-outlined text-emerald-500 text-2xl">groups</span>
+        <span className="text-sm font-bold text-white tracking-widest">Team Meet</span>
+      </div>
+
+      <div className="flex-1" />
+
+      <div className="flex items-center gap-1 relative">
+        <button
+          onClick={() => setShowMoreMenu(!showMoreMenu)}
+          className={`p-2 rounded-full transition-colors ${showMoreMenu ? 'bg-slate-700 text-white' : 'hover:bg-slate-800 text-slate-400'}`}
+          title="More Actions"
+        >
+          <span className="material-symbols-outlined text-xl">more_vert</span>
+        </button>
+
+        {showMoreMenu && (
+          <div className="absolute top-full right-0 mt-2 w-48 rounded-lg bg-slate-900 border border-slate-800 shadow-xl z-50 py-1 overflow-hidden">
+            <button
+              onClick={handleCopyLink}
+              className="w-full px-4 py-2 text-left text-sm text-slate-300 hover:bg-slate-800 flex items-center gap-2"
+            >
+              <span className="material-symbols-outlined text-lg">content_copy</span>
+              Copy Meet Link
+            </button>
+            <button
+              onClick={() => { window.open(`/whiteboard/${roomId}`, "_blank"); setShowMoreMenu(false); }}
+              className="w-full px-4 py-2 text-left text-sm text-slate-300 hover:bg-slate-800 flex items-center gap-2"
+            >
+              <span className="material-symbols-outlined text-lg">draw</span>
+              Open Whiteboard
+            </button>
+          </div>
+        )}
+
+        <button
+          onClick={toggleScreenShare}
+          className={`px-3 py-2 rounded-lg transition-all flex items-center gap-2 ${isScreenSharing ? 'bg-blue-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.4)]' : 'hover:bg-slate-800 text-slate-400'}`}
+          title={isScreenSharing ? "Stop Sharing" : "Share Screen"}
+        >
+          <span className="material-symbols-outlined text-xl">
+            {isScreenSharing ? "stop_screen_share" : "screen_share"}
+          </span>
+          {isScreenSharing && <span className="text-[10px] font-bold uppercase tracking-tighter">You are sharing</span>}
+        </button>
+        <button
+          onClick={toggleCam}
+          className={`p-2 rounded-full transition-colors ${isCamOn ? 'hover:bg-slate-800 text-slate-400' : 'bg-red-500/10 text-red-500'}`}
+          title={isCamOn ? "Turn Camera Off" : "Turn Camera On"}
+        >
+          <span className="material-symbols-outlined text-xl">
+            {isCamOn ? "videocam" : "videocam_off"}
+          </span>
+        </button>
+        <button
+          onClick={toggleMic}
+          className={`p-2 rounded-full transition-colors ${isMicOn ? 'hover:bg-slate-800 text-slate-400' : 'bg-red-500/10 text-red-500'}`}
+          title={isMicOn ? "Mute Microphone" : "Unmute Microphone"}
+        >
+          <span className="material-symbols-outlined text-xl">
+            {isMicOn ? "mic" : "mic_off"}
+          </span>
+        </button>
+        <button
+          onClick={handleEndSession}
+          className="ml-2 w-10 h-10 flex items-center justify-center rounded-full bg-red-600 hover:bg-red-700 text-white shadow-lg transition-transform active:scale-95"
+          title="End Session"
+        >
+          <span className="material-symbols-outlined text-xl">call_end</span>
+        </button>
+      </div>
+    </header>
+  );
+}
+
+function RoomContent({ roomId, userId }: { roomId: string, userId: string }) {
+  const handleCopyLink = () => {
+    const roomURL = `${window.location.origin}/room/meet/${roomId}?userId=${encodeURIComponent(userId)}`;
+    navigator.clipboard.writeText(roomURL);
+    toast.success("Meet link copied to clipboard!");
+  };
+
+  // --- LiveKit Screen Share Detection ---
+  const screenShareTracks = useTracks([
+    { source: Track.Source.ScreenShare, withPlaceholder: false }
+  ]);
+
+  const activeScreenShare = screenShareTracks.find(t => t.participant.identity);
+  const isLocalSharing = activeScreenShare?.participant.isLocal;
+  const isRemoteSharing = activeScreenShare && !isLocalSharing;
+
+  return (
+    <div className={`bg-[#0b0b1a] text-slate-100 h-screen overflow-hidden flex flex-col font-display`}>
+      <MeetHeader roomId={roomId} userId={userId} />
+
+      <main className="flex-1 flex overflow-hidden min-h-0 relative p-4 bg-black">
+        {isRemoteSharing ? (
+          // --- VIEWING SHARED SCREEN ---
+          <div className="flex-1 flex bg-black w-full h-full rounded-xl overflow-hidden border border-slate-800">
+            {/* Main Screen Share Area */}
+            <div className="flex-1 flex items-center justify-center bg-[#0b0b1a]">
+              <div className="w-full h-full object-contain">
+                <VideoTrack
+                  trackRef={activeScreenShare as any}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </div>
+
+            {/* Right Sidebar for Cameras */}
+            <div className="w-64 h-full border-l border-slate-800 bg-slate-900 flex flex-col">
+              <div className="p-3 border-b border-slate-800 bg-slate-900/50 flex justify-between items-center">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Participants</span>
+              </div>
+              <div className="flex-1 overflow-y-auto">
+                <VideoTiles layout="vertical" />
+              </div>
+            </div>
+          </div>
+        ) : (
+          // --- DEFAULT GALLERY VIEW ---
+          <div className="flex-1 flex items-center justify-center bg-[#0b0b1a] rounded-xl border border-slate-800 overflow-hidden relative">
+            <div className="w-full h-full p-4">
+              <VideoTiles layout="grid" />
+            </div>
+            {isLocalSharing && (
+              <div className="absolute top-4 left-4 bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg animate-pulse">
+                You are currently sharing your screen
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Bottom Bar for buttons */}
+        <div className="absolute bottom-10 left-10 flex gap-3 z-30">
+          <button
+            onClick={handleCopyLink}
+            className="px-4 py-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-medium transition-colors backdrop-blur-sm shadow-xl flex items-center gap-2"
+          >
+            <span className="material-symbols-outlined text-lg">content_copy</span>
+            Copy Meet Link
+          </button>
+        </div>
+      </main>
+    </div>
+  );
+}
+
+function RoomProviderWrapper({ roomId, userId }: { roomId: string, userId: string }) {
+  const token = useLiveKitToken(roomId, userId);
+  const serverUrl = process.env.NEXT_PUBLIC_LIVEKIT_URL;
+
+  return (
+    <LiveKitRoom
+      token={token || ""}
+      serverUrl={serverUrl || ""}
+      connect={!!token}
+      video={true}
+      audio={true}
+      className="flex flex-col h-full"
+      options={{
+        publishDefaults: {
+          screenShareEncoding: {
+            maxBitrate: 7000000,
+            maxFramerate: 30,
+          }
+        },
+        videoCaptureDefaults: {
+          resolution: { width: 1920, height: 1080, frameRate: 30 }
+        }
+      }}
+    >
+      <RoomContent roomId={roomId} userId={userId} />
+      <RoomAudioRenderer />
+    </LiveKitRoom>
+  );
+}
+
+export default function MeetRoom({ roomId, userId }: { roomId: string, userId: string }) {
+  return (
+    <Suspense fallback={<div className="text-white p-6">Loading meet...</div>}>
+      <RoomProviderWrapper roomId={roomId} userId={userId} />
+    </Suspense>
+  );
+}

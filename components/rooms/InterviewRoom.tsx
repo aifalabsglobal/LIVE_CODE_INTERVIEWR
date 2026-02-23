@@ -1,7 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useParams, useSearchParams } from "next/navigation";
 import { Suspense, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import type { editor } from "monaco-editor";
@@ -10,6 +9,7 @@ import { LANGUAGE_VERSIONS } from "@/constants";
 import { useEffect } from "react";
 import { useLiveKitToken } from "@/components/VideoRoom";
 import type { OutputHandle } from "@/components/Output";
+import { useBehaviorMonitor } from "@/hooks/useBehaviorMonitor";
 
 const CodeEditor = dynamic(() => import("@/components/CodeEditor"), { ssr: false });
 const VideoRoom = dynamic(() => import("@/components/VideoRoom"), { ssr: false });
@@ -33,6 +33,7 @@ function WorkspaceHeader({
   onRunCode,
   isRunning,
   onSaveCode,
+  warnings,
 }: {
   roomId: string;
   userId: string;
@@ -41,6 +42,7 @@ function WorkspaceHeader({
   onRunCode: () => void;
   isRunning: boolean;
   onSaveCode: () => void;
+  warnings: number;
 }) {
   const { localParticipant } = useLocalParticipant();
   const [isMicOn, setIsMicOn] = useState(true);
@@ -114,7 +116,7 @@ function WorkspaceHeader({
   };
 
   const handleCopyLink = () => {
-    const roomURL = `${window.location.origin}/room/${roomId}?userId=${encodeURIComponent(userId)}`;
+    const roomURL = `${window.location.origin}/room/interview/${roomId}?userId=${encodeURIComponent(userId)}`;
     navigator.clipboard.writeText(roomURL);
     toast.success("Room link copied!");
     setShowMoreMenu(false);
@@ -160,11 +162,19 @@ function WorkspaceHeader({
 
       <div className="flex items-center gap-3 ml-4">
         <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Output</span>
+
+        {warnings > 0 && (
+          <div className="flex items-center gap-1 px-2 py-1 bg-red-500/10 text-red-400 rounded-md text-xs font-bold border border-red-500/20">
+            <span className="material-symbols-outlined text-sm">warning</span>
+            {3 - warnings} Warnings Left
+          </div>
+        )}
+
         <button
           type="button"
           onClick={onRunCode}
           disabled={isRunning}
-          className="flex items-center gap-2 px-4 py-1.5 rounded-lg border border-success text-success hover:bg-success/10 text-sm font-bold transition-all disabled:opacity-60"
+          className={`flex items-center gap-2 px-4 py-1.5 rounded-lg border text-sm font-bold transition-all disabled:opacity-60 ${warnings > 0 ? 'border-red-500 text-red-500 hover:bg-red-500/10' : 'border-success text-success hover:bg-success/10'}`}
         >
           Run Code
         </button>
@@ -247,19 +257,14 @@ function WorkspaceHeader({
   );
 }
 
-function RoomContent() {
-  const params = useParams();
-  const searchParams = useSearchParams();
-  const roomId = params.roomId as string;
-  const userId = searchParams.get("userId") ?? "anonymous";
-
+function RoomContent({ roomId, userId }: { roomId: string, userId: string }) {
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
   const outputRef = useRef<OutputHandle>(null);
   const [language, setLanguage] = useState("javascript");
   const [isRunning, setIsRunning] = useState(false);
 
   const handleCopyLink = () => {
-    const roomURL = `${window.location.origin}/room/${roomId}?userId=${encodeURIComponent(userId)}`;
+    const roomURL = `${window.location.origin}/room/interview/${roomId}?userId=${encodeURIComponent(userId)}`;
     navigator.clipboard.writeText(roomURL);
     toast.success("Room link copied to clipboard!");
   };
@@ -284,6 +289,8 @@ function RoomContent() {
     toast.success("Code saved!");
   };
 
+  const { warnings, showWarningOverlay, dismissWarning, isTerminated } = useBehaviorMonitor(3);
+
   // --- LiveKit Screen Share Detection ---
   const screenShareTracks = useTracks([
     { source: Track.Source.ScreenShare, withPlaceholder: false }
@@ -298,7 +305,29 @@ function RoomContent() {
   const isRemoteSharing = activeScreenShare && !isLocalSharing;
 
   return (
-    <div className={`bg-[#0b0b1a] text-slate-100 h-screen overflow-hidden flex flex-col font-display`}>
+    <div className={`bg-[#0b0b1a] text-slate-100 h-screen overflow-hidden flex flex-col font-display relative`}>
+      {showWarningOverlay && !isTerminated && (
+        <div className="absolute inset-0 z-50 bg-red-900/90 flex flex-col items-center justify-center p-8 text-center backdrop-blur-md">
+          <span className="material-symbols-outlined text-6xl text-white mb-4">warning</span>
+          <h2 className="text-3xl font-bold text-white mb-2">Attention Required</h2>
+          <p className="text-lg text-red-100 max-w-md">
+            Please keep this tab and window active. Navigating away ({warnings}/3 warnings used) will result in automatic session termination.
+          </p>
+          <button onClick={dismissWarning} className="mt-8 px-6 py-2 bg-white text-red-900 rounded-lg font-bold">I Understand</button>
+        </div>
+      )}
+
+      {isTerminated && (
+        <div className="absolute inset-0 z-[100] bg-black flex flex-col items-center justify-center p-8 text-center backdrop-blur-xl">
+          <span className="material-symbols-outlined text-6xl text-red-500 mb-4">cancel</span>
+          <h2 className="text-3xl font-bold text-white mb-2">Session Terminated</h2>
+          <p className="text-lg text-slate-400 max-w-md">
+            Your interview session was terminated due to multiple focus violations.
+          </p>
+          <button onClick={() => window.location.href = '/'} className="mt-8 px-6 py-3 bg-red-600 text-white rounded-lg font-bold">Return Home</button>
+        </div>
+      )}
+
       <WorkspaceHeader
         roomId={roomId}
         userId={userId}
@@ -307,6 +336,7 @@ function RoomContent() {
         onRunCode={handleRunCode}
         isRunning={isRunning}
         onSaveCode={handleSaveCode}
+        warnings={warnings}
       />
 
       <main className="flex-1 flex overflow-hidden min-h-0 relative">
@@ -390,11 +420,7 @@ function RoomContent() {
   );
 }
 
-function RoomProviderWrapper() {
-  const params = useParams();
-  const searchParams = useSearchParams();
-  const roomId = params.roomId as string;
-  const userId = searchParams.get("userId") ?? "anonymous";
+function RoomProviderWrapper({ roomId, userId }: { roomId: string, userId: string }) {
   const token = useLiveKitToken(roomId, userId);
   const serverUrl = process.env.NEXT_PUBLIC_LIVEKIT_URL;
 
@@ -423,14 +449,14 @@ function RoomProviderWrapper() {
           }
         }}
       >
-        <RoomContent />
+        <RoomContent roomId={roomId} userId={userId} />
         <RoomAudioRenderer />
       </LiveKitRoom>
     </RoomProvider>
   );
 }
 
-export default function RoomPage() {
+export default function InterviewRoom({ roomId, userId }: { roomId: string, userId: string }) {
   const publicKey = process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY;
   if (!publicKey) {
     return (
@@ -442,7 +468,7 @@ export default function RoomPage() {
   return (
     <LiveblocksProvider>
       <Suspense fallback={<div className="text-white p-6">Loading room...</div>}>
-        <RoomProviderWrapper />
+        <RoomProviderWrapper roomId={roomId} userId={userId} />
       </Suspense>
     </LiveblocksProvider>
   );
