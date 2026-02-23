@@ -48,31 +48,29 @@ class VideoConferenceErrorBoundary extends React.Component<
   }
 }
 
-export function VideoTiles() {
-  const tracks = useTracks(
-    [
-      { source: Track.Source.Camera, withPlaceholder: true },
-      { source: Track.Source.ScreenShare, withPlaceholder: false },
-    ]
-  );
-
-  // Filter out local participant's own screen share (like Teams/Meet)
-  const filteredTracks = tracks.filter(
-    (track) => !(track.participant.isLocal && track.source === Track.Source.ScreenShare)
-  );
+export function VideoTiles({ layout = "grid" }: { layout?: "grid" | "vertical" }) {
+  const tracks = useTracks([
+    { source: Track.Source.Camera, withPlaceholder: true }
+  ]);
 
   return (
     <VideoConferenceErrorBoundary>
-      <div className="grid grid-cols-1 gap-2 p-2 h-full overflow-y-auto custom-scrollbar bg-black">
-        {filteredTracks.map((track) => (
+      <div
+        className={`${layout === "grid"
+            ? "grid grid-cols-1 gap-2"
+            : "flex flex-col gap-3"
+          } p-2 h-full overflow-y-auto custom-scrollbar ${layout === "grid" ? "bg-black" : ""}`}
+      >
+        {tracks.map((track) => (
           <ParticipantTile
             key={`${track.participant.identity}-${track.source}`}
             trackRef={track}
+            className="w-full aspect-video rounded-lg overflow-hidden shrink-0 bg-slate-800"
           />
         ))}
-        {filteredTracks.length === 0 && (
-          <div className="flex items-center justify-center aspect-video text-slate-500 text-xs">
-            Waiting for participants...
+        {tracks.length === 0 && (
+          <div className={`flex items-center justify-center ${layout === "grid" ? "aspect-video" : "h-32"} text-slate-500 text-xs text-center p-4`}>
+            Waiting for cameras...
           </div>
         )}
       </div>

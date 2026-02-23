@@ -7,6 +7,8 @@ import toast from "react-hot-toast";
 import type { editor } from "monaco-editor";
 import { LiveblocksProvider, RoomProvider, useRoom } from "@/lib/liveblocks";
 import { LANGUAGE_VERSIONS } from "@/constants";
+import { useEffect } from "react";
+import { useLiveKitToken } from "@/components/VideoRoom";
 import type { OutputHandle } from "@/components/Output";
 
 const CodeEditor = dynamic(() => import("@/components/CodeEditor"), { ssr: false });
@@ -18,8 +20,10 @@ import {
   LiveKitRoom,
   useLocalParticipant,
   RoomAudioRenderer,
+  useTracks,
+  VideoTrack,
 } from "@livekit/components-react";
-import { useLiveKitToken } from "@/components/VideoRoom";
+import { Track, ScreenSharePresets } from "livekit-client";
 
 function WorkspaceHeader({
   roomId,
@@ -44,6 +48,40 @@ function WorkspaceHeader({
   const [isScreenSharing, setIsScreenSharing] = useState(false);
   const [showMoreMenu, setShowMoreMenu] = useState(false);
 
+  const [runtimes, setRuntimes] = useState<Record<string, string>>(LANGUAGE_VERSIONS);
+  const [isLoadingRuntimes, setIsLoadingRuntimes] = useState(true);
+
+  useEffect(() => {
+    async function fetchRuntimes() {
+      try {
+        const res = await fetch("/api/runtimes");
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data: { language: string; version: string }[] = await res.json();
+
+        const runtimeMap: Record<string, string> = {};
+        data.forEach(pkg => {
+          // If a language has multiple versions, we prefer the first/highest returned
+          if (!runtimeMap[pkg.language]) {
+            runtimeMap[pkg.language] = pkg.version;
+          }
+        });
+
+        if (Object.keys(runtimeMap).length > 0) {
+          setRuntimes(runtimeMap);
+          // If current language isn't in fetched list, switch to first available
+          if (!runtimeMap[language]) {
+            onLanguageChange(Object.keys(runtimeMap)[0]);
+          }
+        }
+      } catch (e) {
+        console.error("Using default language versions.", e);
+      } finally {
+        setIsLoadingRuntimes(false);
+      }
+    }
+    fetchRuntimes();
+  }, []);
+
   const toggleMic = async () => {
     const enabled = !isMicOn;
     await localParticipant.setMicrophoneEnabled(enabled);
@@ -59,7 +97,9 @@ function WorkspaceHeader({
   const toggleScreenShare = async () => {
     const enabled = !isScreenSharing;
     try {
-      await localParticipant.setScreenShareEnabled(enabled);
+      await localParticipant.setScreenShareEnabled(enabled, {
+        resolution: ScreenSharePresets.original,
+      });
       setIsScreenSharing(enabled);
     } catch (e) {
       toast.error("Failed to share screen");
@@ -93,14 +133,19 @@ function WorkspaceHeader({
           <select
             value={language}
             onChange={(e) => onLanguageChange(e.target.value)}
-            className="flex items-center gap-2 px-3 py-1 rounded-lg bg-slate-800 border border-slate-700 text-sm font-medium text-slate-200 appearance-none cursor-pointer pr-8"
+            disabled={isLoadingRuntimes}
+            className="flex items-center gap-2 px-3 py-1 rounded-lg bg-slate-800 border border-slate-700 text-sm font-medium text-slate-200 appearance-none cursor-pointer pr-8 disabled:opacity-50"
             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 0.5rem center", backgroundSize: "1.25rem" }}
           >
-            {Object.keys(LANGUAGE_VERSIONS).map((lang) => (
-              <option key={lang} value={lang}>
-                {lang}
-              </option>
-            ))}
+            {isLoadingRuntimes ? (
+              <option>Loading...</option>
+            ) : (
+              Object.entries(runtimes).map(([lang, version]) => (
+                <option key={lang} value={lang}>
+                  {lang} ({version})
+                </option>
+              ))
+            )}
           </select>
         </div>
       </div>
@@ -239,8 +284,21 @@ function RoomContent() {
     toast.success("Code saved!");
   };
 
+  // --- LiveKit Screen Share Detection ---
+  const screenShareTracks = useTracks([
+    { source: Track.Source.ScreenShare, withPlaceholder: false }
+  ]);
+
+  // Find a valid screen share track
+  const activeScreenShare = screenShareTracks.find(t => t.participant.identity);
+
+  // Is the current user the one sharing?
+  const isLocalSharing = activeScreenShare?.participant.isLocal;
+  // Are we viewer of someone else's screen share?
+  const isRemoteSharing = activeScreenShare && !isLocalSharing;
+
   return (
-    <div className="bg-[#0b0b1a] text-slate-100 h-screen overflow-hidden flex flex-col font-display">
+    <div className={`bg-[#0b0b1a] text-slate-100 h-screen overflow-hidden flex flex-col font-display`}>
       <WorkspaceHeader
         roomId={roomId}
         userId={userId}
@@ -252,51 +310,77 @@ function RoomContent() {
       />
 
       <main className="flex-1 flex overflow-hidden min-h-0 relative">
-        <div className="flex-1 flex overflow-hidden border-b border-slate-800">
-          <div className="w-1/2 h-full border-r border-slate-800">
-            <CodeEditor
-              roomId={roomId}
-              userId={userId}
-              layout="workspace"
-              editorRefOut={editorRef}
-              language={language}
-              onLanguageChange={setLanguage}
-            />
-          </div>
-          <div className="w-1/2 h-full bg-[#0b0b1a] relative">
-            <Output
-              ref={outputRef}
-              editorRef={editorRef}
-              language={language}
-              layout="side"
-            />
-            {/* Floating Video Overlay */}
-            <div className="absolute top-4 right-4 w-64 rounded-xl overflow-hidden border border-slate-800 shadow-2xl z-20 bg-black">
-              <div className="bg-slate-900/80 px-3 py-1.5 flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-xs text-slate-400">grid_view</span>
-                  <span className="text-[10px] font-bold text-white tracking-widest uppercase">Host</span>
-                </div>
-                <span className="material-symbols-outlined text-xs text-slate-400">expand_less</span>
+        {isRemoteSharing ? (
+          // --- PRESENTATION MODE (Viewer) ---
+          <div className="flex-1 flex bg-black w-full h-full">
+            {/* Main Screen Share Area */}
+            <div className="flex-1 flex items-center justify-center p-4">
+              <div className="w-full h-full max-w-6xl max-h-full rounded-lg overflow-hidden border border-slate-800 shadow-2xl bg-[#0b0b1a]">
+                <VideoTrack
+                  trackRef={activeScreenShare as any}
+                  className="w-full h-full object-contain"
+                />
               </div>
-              <div className="aspect-video bg-black flex items-center justify-center overflow-hidden">
-                <VideoTiles />
+            </div>
+
+            {/* Right Sidebar for Cameras */}
+            <div className="w-64 h-full border-l border-slate-800 bg-slate-900 flex flex-col">
+              <div className="p-3 border-b border-slate-800 bg-slate-900/50 flex justify-between items-center">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Participants</span>
+              </div>
+              <div className="flex-1 overflow-y-auto">
+                <VideoTiles layout="vertical" />
               </div>
             </div>
           </div>
-        </div>
+        ) : (
+          // --- DEFAULT/CODE MODE (Normal or Sharer) ---
+          <div className="flex-1 flex overflow-hidden border-b border-slate-800 w-full relative">
+            <div className="w-1/2 h-full border-r border-slate-800">
+              <CodeEditor
+                roomId={roomId}
+                userId={userId}
+                layout="workspace"
+                editorRefOut={editorRef}
+                language={language}
+                onLanguageChange={setLanguage}
+              />
+            </div>
+            <div className="w-1/2 h-full bg-[#0b0b1a] relative">
+              <Output
+                ref={outputRef}
+                editorRef={editorRef}
+                language={language}
+                layout="side"
+              />
+              {/* Floating Video Overlay */}
+              <div className="absolute top-4 right-4 w-72 rounded-xl overflow-hidden border border-slate-800 shadow-2xl z-20 bg-black flex flex-col">
+                <div className="bg-slate-900/80 px-3 py-1.5 flex justify-between items-center shrink-0">
+                  <div className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-xs text-slate-400">grid_view</span>
+                    <span className="text-[10px] font-bold text-white tracking-widest uppercase">Room</span>
+                  </div>
+                  <span className="material-symbols-outlined text-xs text-slate-400">expand_more</span>
+                </div>
+                <div className="bg-black flex flex-col overflow-hidden max-h-[60vh]">
+                  <VideoTiles layout="vertical" />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Bottom Bar for buttons */}
         <div className="absolute bottom-6 left-6 flex gap-3 z-30">
           <button
             onClick={handleCopyLink}
-            className="px-4 py-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-medium transition-colors"
+            className="px-4 py-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-medium transition-colors backdrop-blur-sm shadow-xl"
           >
             Copy Room ID
           </button>
           <button
             onClick={handleReportLink}
-            className="px-4 py-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-medium transition-colors"
+            className="px-4 py-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-medium transition-colors backdrop-blur-sm shadow-xl"
           >
             Get Report Link
           </button>
@@ -327,6 +411,17 @@ function RoomProviderWrapper() {
         video={true}
         audio={true}
         className="flex flex-col h-full"
+        options={{
+          publishDefaults: {
+            screenShareEncoding: {
+              maxBitrate: 7000000, // 7 Mbps for absolute crystal clear text
+              maxFramerate: 30,
+            }
+          },
+          videoCaptureDefaults: {
+            resolution: { width: 1920, height: 1080, frameRate: 30 }
+          }
+        }}
       >
         <RoomContent />
         <RoomAudioRenderer />

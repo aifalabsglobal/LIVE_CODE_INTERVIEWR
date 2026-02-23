@@ -118,7 +118,7 @@ export default function CodeEditor({
             options={{ minimap: { enabled: false } }}
             theme="vs-dark"
             language={lang}
-            defaultValue={CODE_SNIPPETS[lang] ?? CODE_SNIPPETS.javascript}
+            defaultValue={CODE_SNIPPETS[lang] ?? `// Write your ${lang} code here`}
             onMount={onMount}
             value={value}
             onChange={(newValue) => setValue(newValue ?? "")}
@@ -148,7 +148,7 @@ export default function CodeEditor({
           height="70vh"
           theme="vs-dark"
           language={lang}
-          defaultValue={CODE_SNIPPETS[lang] ?? CODE_SNIPPETS.javascript}
+          defaultValue={CODE_SNIPPETS[lang] ?? `// Write your ${lang} code here`}
           onMount={onMount}
           value={value}
           onChange={(newValue) => setValue(newValue ?? "")}

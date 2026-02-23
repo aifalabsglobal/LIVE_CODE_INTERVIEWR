@@ -37,6 +37,7 @@ export default function RootLayout({
         <body
           className={`${inter.variable} font-display antialiased`}
           style={{ backgroundColor: "#0d1117", color: "#e2e8f0" }}
+          suppressHydrationWarning
         >
           {children}
           <Toaster
