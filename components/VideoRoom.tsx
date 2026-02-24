@@ -7,7 +7,7 @@ import {
   ParticipantTile,
   useTracks,
 } from "@livekit/components-react";
-import { Track } from "livekit-client";
+import { Track, VideoPresets } from "livekit-client";
 import "@livekit/components-styles";
 
 interface VideoRoomProps {
@@ -115,6 +115,28 @@ export default function VideoRoom({ roomId, participantIdentity }: VideoRoomProp
       data-lk-theme="default"
       style={{ height: "100%" }}
       connect={true}
+      options={{
+        publishDefaults: {
+          screenShareEncoding: {
+            maxBitrate: 8000000,
+            maxFramerate: 60,
+          },
+          videoEncoding: {
+            maxBitrate: 3000000,
+            maxFramerate: 30,
+          }
+        },
+        audioCaptureDefaults: {
+          autoGainControl: true,
+          echoCancellation: true,
+          noiseSuppression: true,
+          sampleRate: 48000,
+          channelCount: 2,
+        },
+        videoCaptureDefaults: {
+          resolution: VideoPresets.h1080.resolution,
+        }
+      }}
     >
       <VideoTiles />
       <RoomAudioRenderer />

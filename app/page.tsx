@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect } from "react";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export default function HomePage() {
   // Ensures dark mode styling works natively since the design acts as dark-mode primary
@@ -44,10 +45,20 @@ export default function HomePage() {
               <Link href="#" className="hover:text-[#137fec] transition-colors">Pricing</Link>
             </div>
             <div className="flex items-center gap-4">
-              <button className="text-sm font-medium text-slate-400 hover:text-white transition-colors">Sign In</button>
-              <button className="bg-[#137fec] hover:bg-[#137fec]/90 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all shadow-lg shadow-[#137fec]/20">
-                Get Started
-              </button>
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <button className="text-sm font-medium text-slate-400 hover:text-white transition-colors">Sign In</button>
+                </SignInButton>
+                <SignInButton mode="modal">
+                  <button className="bg-[#137fec] hover:bg-[#137fec]/90 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all shadow-lg shadow-[#137fec]/20">
+                    Get Started
+                  </button>
+                </SignInButton>
+              </SignedOut>
+              <SignedIn>
+                <Link href="/dashboard" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">Dashboard</Link>
+                <UserButton appearance={{ elements: { avatarBox: "w-9 h-9" } }} />
+              </SignedIn>
             </div>
           </div>
         </nav>

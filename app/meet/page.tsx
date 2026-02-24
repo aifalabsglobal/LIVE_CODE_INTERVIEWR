@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export default function HomePage() {
   const router = useRouter();
@@ -187,21 +188,28 @@ export default function HomePage() {
                 settings
               </span>
             </button>
-            <button
-              type="button"
-              style={{
-                padding: "6px 16px",
-                borderRadius: "6px",
-                backgroundColor: colors.primary,
-                border: "none",
-                color: "#fff",
-                fontSize: "14px",
-                fontWeight: 600,
-                cursor: "pointer",
-              }}
-            >
-              Sign In
-            </button>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <button
+                  type="button"
+                  style={{
+                    padding: "6px 16px",
+                    borderRadius: "6px",
+                    backgroundColor: colors.primary,
+                    border: "none",
+                    color: "#fff",
+                    fontSize: "14px",
+                    fontWeight: 600,
+                    cursor: "pointer",
+                  }}
+                >
+                  Sign In
+                </button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
           </div>
         </div>
       </header>

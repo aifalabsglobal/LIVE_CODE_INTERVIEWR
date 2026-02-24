@@ -9,6 +9,7 @@ import { LANGUAGE_VERSIONS } from "@/constants";
 import { useEffect } from "react";
 import type { OutputHandle } from "@/components/Output";
 import { useBehaviorMonitor } from "@/hooks/useBehaviorMonitor";
+import { useChat } from "@ai-sdk/react";
 
 const CodeEditor = dynamic(() => import("@/components/CodeEditor"), { ssr: false });
 const Output = dynamic(() => import("@/components/Output"), { ssr: false });
@@ -142,6 +143,34 @@ function RoomContent({ roomId, userId }: { roomId: string, userId: string }) {
         }
     };
 
+    const { messages, sendMessage, status } = useChat();
+    const [input, setInput] = useState("");
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    // Auto-scroll to bottom of chat
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages]);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setInput(e.target.value);
+    }
+
+    const onChatSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!input.trim() || status === 'streaming' || status === 'submitted') return;
+
+        const codeContext = editorRef.current?.getValue() || "";
+
+        // Append user message with code context
+        sendMessage(
+            { text: input },
+            { body: { data: { code: codeContext } } }
+        );
+
+        setInput("");
+    };
+
     const { warnings, showWarningOverlay, dismissWarning, isTerminated } = useBehaviorMonitor(3);
 
     return (
@@ -181,28 +210,73 @@ function RoomContent({ roomId, userId }: { roomId: string, userId: string }) {
             <main className="flex-1 flex overflow-hidden min-h-0 relative">
                 <div className="flex-1 flex overflow-hidden border-b border-slate-800 w-full relative">
 
-                    {/* AI Instructions Sidebar */}
-                    <div className="w-1/4 h-full border-r border-slate-800 bg-slate-900 flex flex-col hidden md:flex">
-                        <div className="p-4 border-b border-slate-800">
+                    {/* AI Interviewer Live Chat Sidebar */}
+                    <div className="w-[30%] h-full border-r border-slate-800 bg-slate-900 flex flex-col hidden md:flex">
+                        <div className="p-4 border-b border-slate-800 flex justify-between items-center">
                             <h2 className="text-sm font-bold text-slate-300 flex items-center gap-2">
                                 <span className="material-symbols-outlined text-violet-500">psychology</span>
-                                Interview Prompt
+                                AI Interviewer
                             </h2>
+                            {(status === 'submitted' || status === 'streaming') && (
+                                <span className="text-xs text-violet-400 animate-pulse">Thinking...</span>
+                            )}
                         </div>
-                        <div className="p-4 flex-1 overflow-y-auto text-slate-400 text-sm leading-relaxed">
-                            <p className="mb-4">Welcome to your AI Mock Interview! The AI will provide instructions here shortly.</p>
-                            <div className="animate-pulse flex space-x-4">
-                                <div className="flex-1 space-y-4 py-1">
-                                    <div className="h-2 bg-slate-800 rounded"></div>
-                                    <div className="space-y-3">
-                                        <div className="grid grid-cols-3 gap-4">
-                                            <div className="h-2 bg-slate-800 rounded col-span-2"></div>
-                                            <div className="h-2 bg-slate-800 rounded col-span-1"></div>
-                                        </div>
-                                        <div className="h-2 bg-slate-800 rounded"></div>
+
+                        <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+                            {messages.length === 0 && (
+                                <div className="h-full flex flex-col items-center justify-center text-slate-500 space-y-4">
+                                    <div className="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center">
+                                        <span className="material-symbols-outlined text-3xl">smart_toy</span>
+                                    </div>
+                                    <p className="text-center max-w-[250px]">
+                                        Hi {userId}! I'm your AI technical interviewer. Write some code and ask me for hints!
+                                    </p>
+                                </div>
+                            )}
+
+                            {messages.map((m: any) => (
+                                <div key={m.id} className={`flex flex-col max-w-[90%] ${m.role === 'user' ? 'self-end' : 'self-start'}`}>
+                                    <div className={`p-3 rounded-2xl text-sm leading-relaxed break-words whitespace-pre-wrap ${m.role === 'user' ? 'bg-violet-600 text-white rounded-br-sm' : 'bg-slate-800 text-slate-200 border border-slate-700/50 rounded-bl-sm'}`}>
+                                        {m.content}
                                     </div>
                                 </div>
-                            </div>
+                            ))}
+
+                            {/* Typing Indicator */}
+                            {(status === 'submitted' || status === 'streaming') && messages[messages.length - 1]?.role === "user" && (
+                                <div className="flex gap-4">
+                                    <div className="w-8 h-8 rounded-full bg-violet-600/20 flex flex-shrink-0 flex-col items-center justify-center mt-1">
+                                        <span className="material-symbols-outlined text-violet-400 text-[18px]">smart_toy</span>
+                                    </div>
+                                    <div className="flex-1 bg-slate-800/50 rounded-2xl rounded-tl-sm p-4 flex items-center space-x-2">
+                                        <div className="w-2 h-2 bg-violet-400 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                                        <div className="w-2 h-2 bg-violet-400 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                                        <div className="w-2 h-2 bg-violet-400 rounded-full animate-bounce"></div>
+                                    </div>
+                                </div>
+                            )}
+                            <div ref={messagesEndRef} />
+                        </div>
+
+                        {/* Chat Input */}
+                        <div className="p-4 border-t border-slate-800 bg-slate-900">
+                            <form onSubmit={onChatSubmit} className="relative">
+                                <input
+                                    value={input || ""}
+                                    onChange={handleInputChange}
+                                    placeholder="Type a message or ask for a hint..."
+                                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 pr-12 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-500 transition-all placeholder-slate-500"
+                                    disabled={status === 'streaming' || status === 'submitted'}
+                                    autoFocus
+                                />
+                                <button
+                                    type="submit"
+                                    disabled={status === 'streaming' || status === 'submitted' || !(input || "").trim()}
+                                    className="absolute right-2 top-2 p-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white disabled:opacity-50 disabled:hover:bg-violet-600 transition-colors"
+                                >
+                                    <span className="material-symbols-outlined text-[18px]">send</span>
+                                </button>
+                            </form>
                         </div>
                     </div>
 

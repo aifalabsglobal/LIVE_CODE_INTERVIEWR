@@ -15,7 +15,7 @@ import {
   useTracks,
   VideoTrack,
 } from "@livekit/components-react";
-import { Track, ScreenSharePresets } from "livekit-client";
+import { Track, ScreenSharePresets, VideoPresets } from "livekit-client";
 
 function MeetHeader({ roomId, userId }: { roomId: string, userId: string }) {
   const { localParticipant } = useLocalParticipant();
@@ -227,12 +227,23 @@ function RoomProviderWrapper({ roomId, userId }: { roomId: string, userId: strin
       options={{
         publishDefaults: {
           screenShareEncoding: {
-            maxBitrate: 7000000,
+            maxBitrate: 8000000,
+            maxFramerate: 60,
+          },
+          videoEncoding: {
+            maxBitrate: 3000000,
             maxFramerate: 30,
           }
         },
+        audioCaptureDefaults: {
+          autoGainControl: true,
+          echoCancellation: true,
+          noiseSuppression: true,
+          sampleRate: 48000,
+          channelCount: 2,
+        },
         videoCaptureDefaults: {
-          resolution: { width: 1920, height: 1080, frameRate: 30 }
+          resolution: VideoPresets.h1080.resolution,
         }
       }}
     >

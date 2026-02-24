@@ -36,12 +36,13 @@ export function useBehaviorMonitor(maxWarnings: number = 3) {
             handleViolation("Window lost focus. Please keep the interview window active.");
         };
 
-        document.addEventListener("visibilitychange", handleVisibilityChange);
-        window.addEventListener("blur", handleWindowBlur);
+        // TEMPORARILY DISABLED FOR TESTING
+        // document.addEventListener("visibilitychange", handleVisibilityChange);
+        // window.addEventListener("blur", handleWindowBlur);
 
         return () => {
-            document.removeEventListener("visibilitychange", handleVisibilityChange);
-            window.removeEventListener("blur", handleWindowBlur);
+            // document.removeEventListener("visibilitychange", handleVisibilityChange);
+            // window.removeEventListener("blur", handleWindowBlur);
         };
     }, [maxWarnings]);
 
