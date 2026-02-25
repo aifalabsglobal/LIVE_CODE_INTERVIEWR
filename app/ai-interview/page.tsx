@@ -9,8 +9,9 @@ export default function AIOnboardingPage() {
   const [userName, setUserName] = useState("");
   const [language, setLanguage] = useState("javascript");
   const [difficulty, setDifficulty] = useState("Medium");
-  const [category, setCategory] = useState("Data Structures & Algorithms");
   const [duration, setDuration] = useState("30");
+  const [role, setRole] = useState("Full-Stack Developer");
+  const [experience, setExperience] = useState("Intermediate");
   const [isStarting, setIsStarting] = useState(false);
 
   const [runtimes, setRuntimes] = useState<{ language: string, version: string }[]>([]);
@@ -52,8 +53,9 @@ export default function AIOnboardingPage() {
       userId: userName,
       lang: language,
       diff: difficulty,
-      cat: category,
-      dur: duration
+      dur: duration,
+      role: role,
+      exp: experience
     }).toString();
 
     router.push(`/room/ai/${rid}?${query}`);
@@ -93,13 +95,13 @@ export default function AIOnboardingPage() {
         </div>
       </header>
 
-      <main style={{ maxWidth: "600px", margin: "48px auto", padding: "0 24px" }}>
+      <main style={{ maxWidth: "600px", margin: "24px auto", padding: "0 16px" }}>
         <div style={{ textAlign: "center", marginBottom: "32px" }}>
-          <h1 style={{ fontSize: "28px", fontWeight: 800, marginBottom: "8px" }}>Configure Mock Interview</h1>
+          <h1 style={{ fontSize: "24px", fontWeight: 800, marginBottom: "8px" }}>Configure Mock Interview</h1>
           <p style={{ color: colors.textMuted }}>Customize the parameters for your AI-guided technical assessment.</p>
         </div>
 
-        <div style={{ backgroundColor: colors.surface, border: `1px solid ${colors.border}`, borderRadius: "16px", padding: "32px", boxShadow: "0 8px 32px rgba(0,0,0,0.3)" }}>
+        <div style={{ backgroundColor: colors.surface, border: `1px solid ${colors.border}`, borderRadius: "16px", padding: "24px", boxShadow: "0 8px 32px rgba(0,0,0,0.3)" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
 
             {/* Name */}
@@ -114,8 +116,41 @@ export default function AIOnboardingPage() {
               />
             </div>
 
+            {/* Target Role & Experience Level */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }} className="sm:!flex-row">
+              <div style={{ flex: 1 }}>
+                <label style={{ display: "block", fontSize: "14px", fontWeight: 600, color: colors.textLabel, marginBottom: "6px" }}>Target Role</label>
+                <select
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  style={{ ...inputStyle, cursor: "pointer" }}
+                >
+                  <option value="Frontend Developer">Frontend Developer</option>
+                  <option value="Backend Developer">Backend Developer</option>
+                  <option value="Full-Stack Developer">Full-Stack Developer</option>
+                  <option value="DevOps Engineer">DevOps Engineer</option>
+                  <option value="Data Engineer">Data Engineer</option>
+                  <option value="Mobile Developer">Mobile Developer</option>
+                  <option value="General Software Engineer">General Software Engineer</option>
+                </select>
+              </div>
+
+              <div style={{ flex: 1 }}>
+                <label style={{ display: "block", fontSize: "14px", fontWeight: 600, color: colors.textLabel, marginBottom: "6px" }}>Experience Level</label>
+                <select
+                  value={experience}
+                  onChange={(e) => setExperience(e.target.value)}
+                  style={{ ...inputStyle, cursor: "pointer" }}
+                >
+                  <option value="Beginner">Beginner (0-1 years)</option>
+                  <option value="Intermediate">Intermediate (2-4 years)</option>
+                  <option value="Advanced">Advanced (5+ years)</option>
+                </select>
+              </div>
+            </div>
+
             {/* Language & Difficulty */}
-            <div style={{ display: "flex", gap: "16px" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }} className="sm:!flex-row">
               <div style={{ flex: 1 }}>
                 <label style={{ display: "block", fontSize: "14px", fontWeight: 600, color: colors.textLabel, marginBottom: "6px" }}>Primary Language</label>
                 <select
@@ -142,22 +177,6 @@ export default function AIOnboardingPage() {
                   <option value="Hard">Hard (Senior)</option>
                 </select>
               </div>
-            </div>
-
-            {/* Category */}
-            <div>
-              <label style={{ display: "block", fontSize: "14px", fontWeight: 600, color: colors.textLabel, marginBottom: "6px" }}>Interview Category</label>
-              <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                style={{ ...inputStyle, cursor: "pointer" }}
-              >
-                <option value="Data Structures & Algorithms">Data Structures & Algorithms</option>
-                <option value="Frontend Development (React)">Frontend Development (React)</option>
-                <option value="Backend Development (Node.js)">Backend Development (Node.js)</option>
-                <option value="System Design">System Design</option>
-                <option value="Debugging & Refactoring">Debugging & Refactoring</option>
-              </select>
             </div>
 
             {/* Duration */}

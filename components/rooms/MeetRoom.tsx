@@ -63,7 +63,7 @@ function MeetHeader({ roomId, userId }: { roomId: string, userId: string }) {
   };
 
   return (
-    <header className="flex items-center gap-8 px-6 py-3 border-b border-slate-800 bg-background-dark z-10">
+    <header className="flex items-center gap-2 md:gap-8 px-3 md:px-6 py-2 md:py-3 border-b border-slate-800 bg-background-dark z-10 flex-wrap">
       <div className="flex items-center gap-3">
         <span className="material-symbols-outlined text-emerald-500 text-2xl">groups</span>
         <span className="text-sm font-bold text-white tracking-widest">Team Meet</span>
@@ -174,7 +174,7 @@ function RoomContent({ roomId, userId }: { roomId: string, userId: string }) {
             </div>
 
             {/* Right Sidebar for Cameras */}
-            <div className="w-64 h-full border-l border-slate-800 bg-slate-900 flex flex-col">
+            <div className="w-48 md:w-64 h-full border-l border-slate-800 bg-slate-900 flex flex-col">
               <div className="p-3 border-b border-slate-800 bg-slate-900/50 flex justify-between items-center">
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Participants</span>
               </div>

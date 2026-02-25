@@ -115,7 +115,7 @@ export default function HomePage() {
           width: "100%",
           borderBottom: `1px solid ${colors.border}`,
           backgroundColor: colors.surface,
-          padding: "10px 24px",
+          padding: "10px 16px",
         }}
       >
         <div
@@ -146,7 +146,7 @@ export default function HomePage() {
                 Live Code Interviewer
               </span>
             </div>
-            <nav style={{ display: "flex", alignItems: "center", gap: "4px", marginLeft: "8px" }}>
+            <nav style={{ display: "flex", alignItems: "center", gap: "4px", marginLeft: "8px" }} className="hidden md:flex">
               {[
                 { href: "/sessions", label: "Sessions" },
                 { href: "/analytics", label: "Analytics" },
@@ -221,7 +221,7 @@ export default function HomePage() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          padding: "24px 24px 8px 24px",
+          padding: "24px 16px 8px 16px",
         }}
       >
         <div style={{ width: "100%", maxWidth: "440px" }}>

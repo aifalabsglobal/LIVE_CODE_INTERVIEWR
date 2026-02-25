@@ -7,8 +7,16 @@ import { useSearchParams } from "next/navigation";
 function InnerPage({ roomId }: { roomId: string }) {
     const searchParams = useSearchParams();
     const userId = searchParams.get("userId") ?? "anonymous";
+    const lang = searchParams.get("lang") ?? "javascript";
+    const diff = searchParams.get("diff") ?? "Medium";
+    const cat = searchParams.get("cat") ?? "Data Structures & Algorithms";
+    const dur = searchParams.get("dur") ?? "30";
+    const role = searchParams.get("role") ?? "General Software Engineer";
+    const exp = searchParams.get("exp") ?? "Intermediate";
 
-    return <AIRoom roomId={roomId} userId={userId} />;
+    const onboarding = { language: lang, difficulty: diff, category: cat, duration: dur, role, exp };
+
+    return <AIRoom roomId={roomId} userId={userId} onboarding={onboarding} />;
 }
 
 export default function Page({

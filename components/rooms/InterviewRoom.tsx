@@ -128,15 +128,15 @@ function WorkspaceHeader({
   };
 
   return (
-    <header className="flex items-center gap-8 px-6 py-2 border-b border-slate-800 bg-background-dark z-10">
+    <header className="flex items-center gap-2 md:gap-8 px-3 md:px-6 py-2 border-b border-slate-800 bg-background-dark z-10 flex-wrap">
       <div className="flex items-center gap-3">
-        <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Language:</span>
+        <span className="text-xs font-bold text-slate-500 uppercase tracking-widest hidden sm:inline">Language:</span>
         <div className="relative group">
           <select
             value={language}
             onChange={(e) => onLanguageChange(e.target.value)}
             disabled={isLoadingRuntimes}
-            className="flex items-center gap-2 px-3 py-1 rounded-lg bg-slate-800 border border-slate-700 text-sm font-medium text-slate-200 appearance-none cursor-pointer pr-8 disabled:opacity-50"
+            className="flex items-center gap-2 px-2 md:px-3 py-1 rounded-lg bg-slate-800 border border-slate-700 text-xs md:text-sm font-medium text-slate-200 appearance-none cursor-pointer pr-7 md:pr-8 disabled:opacity-50"
             style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 0.5rem center", backgroundSize: "1.25rem" }}
           >
             {isLoadingRuntimes ? (
@@ -155,13 +155,13 @@ function WorkspaceHeader({
       <button
         type="button"
         onClick={onSaveCode}
-        className="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-sm font-medium transition-colors"
+        className="px-3 md:px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs md:text-sm font-medium transition-colors"
       >
         Save Code
       </button>
 
-      <div className="flex items-center gap-3 ml-4">
-        <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Output</span>
+      <div className="flex items-center gap-2 md:gap-3 ml-2 md:ml-4">
+        <span className="text-xs font-bold text-slate-500 uppercase tracking-widest hidden sm:inline">Output</span>
 
         {warnings > 0 && (
           <div className="flex items-center gap-1 px-2 py-1 bg-red-500/10 text-red-400 rounded-md text-xs font-bold border border-red-500/20">
@@ -174,7 +174,7 @@ function WorkspaceHeader({
           type="button"
           onClick={onRunCode}
           disabled={isRunning}
-          className={`flex items-center gap-2 px-4 py-1.5 rounded-lg border text-sm font-bold transition-all disabled:opacity-60 ${warnings > 0 ? 'border-red-500 text-red-500 hover:bg-red-500/10' : 'border-success text-success hover:bg-success/10'}`}
+          className={`flex items-center gap-1 md:gap-2 px-3 md:px-4 py-1.5 rounded-lg border text-xs md:text-sm font-bold transition-all disabled:opacity-60 ${warnings > 0 ? 'border-red-500 text-red-500 hover:bg-red-500/10' : 'border-success text-success hover:bg-success/10'}`}
         >
           Run Code
         </button>
@@ -354,7 +354,7 @@ function RoomContent({ roomId, userId }: { roomId: string, userId: string }) {
             </div>
 
             {/* Right Sidebar for Cameras */}
-            <div className="w-64 h-full border-l border-slate-800 bg-slate-900 flex flex-col">
+            <div className="w-48 md:w-64 h-full border-l border-slate-800 bg-slate-900 flex flex-col">
               <div className="p-3 border-b border-slate-800 bg-slate-900/50 flex justify-between items-center">
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Participants</span>
               </div>
@@ -365,8 +365,8 @@ function RoomContent({ roomId, userId }: { roomId: string, userId: string }) {
           </div>
         ) : (
           // --- DEFAULT/CODE MODE (Normal or Sharer) ---
-          <div className="flex-1 flex overflow-hidden border-b border-slate-800 w-full relative">
-            <div className="w-1/2 h-full border-r border-slate-800">
+          <div className="flex-1 flex flex-col md:flex-row overflow-hidden border-b border-slate-800 w-full relative">
+            <div className="w-full md:w-1/2 h-1/2 md:h-full border-r border-slate-800">
               <CodeEditor
                 roomId={roomId}
                 userId={userId}
@@ -376,7 +376,7 @@ function RoomContent({ roomId, userId }: { roomId: string, userId: string }) {
                 onLanguageChange={setLanguage}
               />
             </div>
-            <div className="w-1/2 h-full bg-[#0b0b1a] relative">
+            <div className="w-full md:w-1/2 h-1/2 md:h-full bg-[#0b0b1a] relative">
               <Output
                 ref={outputRef}
                 editorRef={editorRef}
@@ -384,7 +384,7 @@ function RoomContent({ roomId, userId }: { roomId: string, userId: string }) {
                 layout="side"
               />
               {/* Floating Video Overlay */}
-              <div className="absolute top-4 right-4 w-72 rounded-xl overflow-hidden border border-slate-800 shadow-2xl z-20 bg-black flex flex-col">
+              <div className="absolute top-2 right-2 md:top-4 md:right-4 w-48 md:w-72 rounded-xl overflow-hidden border border-slate-800 shadow-2xl z-20 bg-black flex flex-col">
                 <div className="bg-slate-900/80 px-3 py-1.5 flex justify-between items-center shrink-0">
                   <div className="flex items-center gap-2">
                     <span className="material-symbols-outlined text-xs text-slate-400">grid_view</span>
