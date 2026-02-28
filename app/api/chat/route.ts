@@ -3,7 +3,7 @@ import { streamText } from 'ai';
 
 // Instantiate the provider pointing directly to the user's remote Ollama instance
 const ollama = createOpenAI({
-    baseURL: (process.env.OLLAMA_BASE_URL || 'http://localhost:11434/api').replace('/api', '/v1'),
+    baseURL: (process.env.OLLAMA_BASE_URL || 'http://45.198.59.91:11434/api').replace('/api', '/v1'),
     apiKey: 'ollama', // Required by SDK, but ignored by Ollama
 });
 
@@ -103,7 +103,7 @@ ${codeContext}
 -----------------------------------`;
 
         const result = await streamText({
-            model: ollama.chat(process.env.OLLAMA_MODEL || 'glm-4.7-flash'),
+            model: ollama.chat(process.env.OLLAMA_MODEL || 'gpt-oss:latest'),
             messages: simpleMessages,
             system: systemPrompt,
         });

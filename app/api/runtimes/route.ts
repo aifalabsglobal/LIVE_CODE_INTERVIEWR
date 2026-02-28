@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const PISTON_BASE = (process.env.PISTON_BASE_URL || "https://emkc.org/api/v2/piston").replace(/\/$/, "");
+const PISTON_BASE = (process.env.PISTON_BASE_URL || "http://45.198.59.91/api/v2").replace(/\/$/, "");
 
 export async function GET() {
     try {

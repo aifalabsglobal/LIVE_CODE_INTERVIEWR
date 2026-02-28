@@ -10,6 +10,7 @@ import { useBehaviorMonitor } from "@/hooks/useBehaviorMonitor";
 import { useChat } from "@ai-sdk/react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { TTSQueue, stopTTS } from "@/lib/playTTS";
 
 const CodeEditor = dynamic(() => import("@/components/CodeEditor"), { ssr: false });
 const Output = dynamic(() => import("@/components/Output"), { ssr: false });
@@ -334,6 +335,11 @@ function RoomContent({ roomId, userId, onboarding }: {
     const [mobileTab, setMobileTab] = useState<'chat' | 'editor' | 'output'>('editor');
     const lastOutputRef = useRef<string>(''); // stores last run output for Submit
 
+    // ── TTS Voice ──
+    const [voiceEnabled, setVoiceEnabled] = useState(true);
+    const ttsQueueRef = useRef<TTSQueue | null>(null);
+    const lastTTSMsgId = useRef<string>('');
+
     // ── Timer Logic ──
     const initialMinutes = parseInt(onboarding.duration) || 30; // default to 30 if parsing fails
     const [timeLeft, setTimeLeft] = useState(initialMinutes * 60);
@@ -375,6 +381,40 @@ function RoomContent({ roomId, userId, onboarding }: {
             sendMessage({ text: 'I am ready to start my mock interview!' }, { body: { data: { onboarding } } });
         }
     }, [messages.length, status, sendMessage, onboarding]);
+
+    // ── TTS: Real-time streaming — feed sentences as they arrive ──
+    useEffect(() => {
+        if (!voiceEnabled) return;
+        if (messages.length === 0) return;
+        const lastMsg = messages[messages.length - 1];
+        if (lastMsg.role !== 'assistant') return;
+
+        const text = getMsgText(lastMsg);
+        if (!text) return;
+
+        // New AI message started — create fresh queue
+        if (lastMsg.id !== lastTTSMsgId.current) {
+            ttsQueueRef.current?.stop();
+            ttsQueueRef.current = new TTSQueue();
+            lastTTSMsgId.current = lastMsg.id;
+        }
+
+        if (status === 'streaming') {
+            // Feed text as it grows — queue detects new sentences
+            ttsQueueRef.current?.feed(text);
+        } else if (status === 'ready') {
+            // Stream finished — flush remaining fragment
+            ttsQueueRef.current?.flush(text);
+        }
+    }, [messages, status, voiceEnabled]);
+
+    // Stop TTS when voice is toggled off
+    useEffect(() => {
+        if (!voiceEnabled) {
+            ttsQueueRef.current?.stop();
+            stopTTS();
+        }
+    }, [voiceEnabled]);
 
     // Run button — just executes code, no AI involvement
     const handleRunCode = async () => {
@@ -502,9 +542,20 @@ function RoomContent({ roomId, userId, onboarding }: {
                                 <span className="material-symbols-outlined text-violet-500 text-base">psychology</span>
                                 AI Interviewer
                             </h2>
-                            {(status === 'submitted' || status === 'streaming') && (
-                                <span className="text-xs text-violet-400 animate-pulse font-medium">Thinking...</span>
-                            )}
+                            <div className="flex items-center gap-2">
+                                {(status === 'submitted' || status === 'streaming') && (
+                                    <span className="text-xs text-violet-400 animate-pulse font-medium">Thinking...</span>
+                                )}
+                                <button
+                                    onClick={() => setVoiceEnabled(v => !v)}
+                                    className={`p-1 rounded-md transition-colors ${voiceEnabled ? 'text-violet-400 hover:bg-violet-500/10' : 'text-slate-600 hover:bg-slate-800'}`}
+                                    title={voiceEnabled ? 'Voice On — Click to mute' : 'Voice Off — Click to enable'}
+                                >
+                                    <span className="material-symbols-outlined text-base">
+                                        {voiceEnabled ? 'volume_up' : 'volume_off'}
+                                    </span>
+                                </button>
+                            </div>
                         </div>
 
                         {/* Messages */}

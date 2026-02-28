@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Suspense, useState, useRef } from "react";
+import { Suspense, useState, useRef, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useLiveKitToken } from "@/components/VideoRoom";
 
@@ -20,10 +20,33 @@ import { Track, ScreenSharePresets, VideoPresets } from "livekit-client";
 function MeetHeader({ roomId, userId }: { roomId: string, userId: string }) {
   const { localParticipant, isCameraEnabled, isMicrophoneEnabled, isScreenShareEnabled } = useLocalParticipant();
   const [isRecording, setIsRecording] = useState(false);
+  const [recordingTime, setRecordingTime] = useState(0);
   const [showMoreMenu, setShowMoreMenu] = useState(false);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
+
+  useEffect(() => {
+    let interval: number;
+    if (isRecording) {
+      interval = window.setInterval(() => {
+        setRecordingTime((prev) => prev + 1);
+      }, 1000);
+    } else {
+      setRecordingTime(0);
+    }
+    return () => clearInterval(interval);
+  }, [isRecording]);
+
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+    const s = (seconds % 60).toString().padStart(2, '0');
+    if (seconds >= 3600) {
+      const h = Math.floor(seconds / 3600).toString().padStart(2, '0');
+      return `${h}:${m}:${s}`;
+    }
+    return `${m}:${s}`;
+  };
 
   const toggleMic = async () => {
     await localParticipant.setMicrophoneEnabled(!isMicrophoneEnabled);
@@ -62,12 +85,41 @@ function MeetHeader({ roomId, userId }: { roomId: string, userId: string }) {
       mediaRecorderRef.current?.stop();
     } else {
       try {
-        const stream = await navigator.mediaDevices.getDisplayMedia({
+        toast.loading("Starting local recording...", { id: "record-toast" });
+
+        // 1. Get the screen/tab selection (including audio for remote participants)
+        const displayStream = await navigator.mediaDevices.getDisplayMedia({
           video: true,
           audio: true,
         });
 
-        const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+        // 2. Get the user's local microphone
+        const micStream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+        });
+
+        // 3. Mix the audio using Web Audio API so BOTH are captured
+        const audioContext = new AudioContext();
+        const dest = audioContext.createMediaStreamDestination();
+
+        if (displayStream.getAudioTracks().length > 0) {
+          const displaySource = audioContext.createMediaStreamSource(displayStream);
+          displaySource.connect(dest);
+        }
+
+        if (micStream.getAudioTracks().length > 0) {
+          const micSource = audioContext.createMediaStreamSource(micStream);
+          micSource.connect(dest);
+        }
+
+        // 4. Combine the screen's video track with the mixed audio track
+        const tracks = [
+          ...displayStream.getVideoTracks(),
+          ...dest.stream.getAudioTracks()
+        ];
+        const mixedStream = new MediaStream(tracks);
+
+        const recorder = new MediaRecorder(mixedStream, { mimeType: 'video/webm' });
         chunksRef.current = [];
 
         recorder.ondataavailable = (e) => {
@@ -85,21 +137,26 @@ function MeetHeader({ roomId, userId }: { roomId: string, userId: string }) {
           document.body.appendChild(a);
           a.click();
           window.URL.revokeObjectURL(url);
-          stream.getTracks().forEach((track) => track.stop());
+
+          displayStream.getTracks().forEach((track) => track.stop());
+          micStream.getTracks().forEach((track) => track.stop());
+          audioContext.close();
+
           setIsRecording(false);
-          toast.success("Recording saved successfully");
+          toast.success("Recording saved to your local PC!", { id: "record-toast" });
         };
 
-        stream.getVideoTracks()[0].onended = () => {
+        // If the user clicks "Stop Sharing" on the browser's floating bar
+        displayStream.getVideoTracks()[0].onended = () => {
           if (recorder.state === 'recording') recorder.stop();
         };
 
         mediaRecorderRef.current = recorder;
         recorder.start();
         setIsRecording(true);
-        toast.success("Recording started");
-      } catch (err) {
-        toast.error("Failed to start recording");
+        toast.success("Recording started. Make sure to share Tab Audio!", { id: "record-toast" });
+      } catch (err: any) {
+        toast.error(`Failed to start recording`, { id: "record-toast" });
         console.error(err);
       }
     }
@@ -152,11 +209,16 @@ function MeetHeader({ roomId, userId }: { roomId: string, userId: string }) {
           </span>
           {isScreenShareEnabled && <span className="text-[10px] font-bold uppercase tracking-tighter">You are sharing</span>}
         </button>
-        <div className="relative group">
+        <div className="relative group flex items-center">
+          {isRecording && (
+            <div className="mr-2 px-2 py-1 bg-red-500/10 border border-red-500/20 text-red-500 rounded-md text-xs font-bold animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.2)]">
+              {formatTime(recordingTime)}
+            </div>
+          )}
           <button
             onClick={toggleRecording}
             className={`p-2 rounded-full transition-all flex items-center justify-center ${isRecording ? 'bg-red-500 text-white animate-pulse shadow-[0_0_15px_rgba(239,68,68,0.5)]' : 'hover:bg-slate-800 text-slate-400'}`}
-            title={isRecording ? "Stop Recording (Saving to your PC)" : "Record Meeting Locally (will ask to capture your screen tab)"}
+            title={isRecording ? "Stop Recording (Saving to your PC)" : "Record Meeting Locally"}
           >
             <span className="material-symbols-outlined text-xl">
               {isRecording ? "stop_circle" : "radio_button_checked"}

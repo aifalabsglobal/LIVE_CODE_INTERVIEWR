@@ -9,7 +9,7 @@ const LANGUAGE_VERSIONS: Record<string, string> = {
   php: "8.2.3",
 };
 
-const PISTON_BASE = (process.env.PISTON_BASE_URL || "https://emkc.org/api/v2/piston").replace(/\/$/, "");
+const PISTON_BASE = (process.env.PISTON_BASE_URL || "http://45.198.59.91/api/v2").replace(/\/$/, "");
 const PISTON_API_KEY = process.env.PISTON_API_KEY?.trim();
 
 export async function POST(request: NextRequest) {
