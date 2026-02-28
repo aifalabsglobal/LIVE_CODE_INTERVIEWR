@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Suspense, useState } from "react";
+import { Suspense, useState, useRef } from "react";
 import toast from "react-hot-toast";
 import { useLiveKitToken } from "@/components/VideoRoom";
 
@@ -18,31 +18,26 @@ import {
 import { Track, ScreenSharePresets, VideoPresets } from "livekit-client";
 
 function MeetHeader({ roomId, userId }: { roomId: string, userId: string }) {
-  const { localParticipant } = useLocalParticipant();
-  const [isMicOn, setIsMicOn] = useState(true);
-  const [isCamOn, setIsCamOn] = useState(true);
-  const [isScreenSharing, setIsScreenSharing] = useState(false);
+  const { localParticipant, isCameraEnabled, isMicrophoneEnabled, isScreenShareEnabled } = useLocalParticipant();
+  const [isRecording, setIsRecording] = useState(false);
   const [showMoreMenu, setShowMoreMenu] = useState(false);
 
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const chunksRef = useRef<Blob[]>([]);
+
   const toggleMic = async () => {
-    const enabled = !isMicOn;
-    await localParticipant.setMicrophoneEnabled(enabled);
-    setIsMicOn(enabled);
+    await localParticipant.setMicrophoneEnabled(!isMicrophoneEnabled);
   };
 
   const toggleCam = async () => {
-    const enabled = !isCamOn;
-    await localParticipant.setCameraEnabled(enabled);
-    setIsCamOn(enabled);
+    await localParticipant.setCameraEnabled(!isCameraEnabled);
   };
 
   const toggleScreenShare = async () => {
-    const enabled = !isScreenSharing;
     try {
-      await localParticipant.setScreenShareEnabled(enabled, {
+      await localParticipant.setScreenShareEnabled(!isScreenShareEnabled, {
         resolution: ScreenSharePresets.original,
       });
-      setIsScreenSharing(enabled);
     } catch (e) {
       toast.error("Failed to share screen");
       console.error(e);
@@ -60,6 +55,54 @@ function MeetHeader({ roomId, userId }: { roomId: string, userId: string }) {
     navigator.clipboard.writeText(roomURL);
     toast.success("Meet link copied!");
     setShowMoreMenu(false);
+  };
+
+  const toggleRecording = async () => {
+    if (isRecording) {
+      mediaRecorderRef.current?.stop();
+    } else {
+      try {
+        const stream = await navigator.mediaDevices.getDisplayMedia({
+          video: true,
+          audio: true,
+        });
+
+        const recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+        chunksRef.current = [];
+
+        recorder.ondataavailable = (e) => {
+          if (e.data.size > 0) chunksRef.current.push(e.data);
+        };
+
+        recorder.onstop = () => {
+          const blob = new Blob(chunksRef.current, { type: 'video/webm' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.style.display = 'none';
+          a.href = url;
+          const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+          a.download = `meeting-recording-${timestamp}.webm`;
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+          stream.getTracks().forEach((track) => track.stop());
+          setIsRecording(false);
+          toast.success("Recording saved successfully");
+        };
+
+        stream.getVideoTracks()[0].onended = () => {
+          if (recorder.state === 'recording') recorder.stop();
+        };
+
+        mediaRecorderRef.current = recorder;
+        recorder.start();
+        setIsRecording(true);
+        toast.success("Recording started");
+      } catch (err) {
+        toast.error("Failed to start recording");
+        console.error(err);
+      }
+    }
   };
 
   return (
@@ -101,30 +144,41 @@ function MeetHeader({ roomId, userId }: { roomId: string, userId: string }) {
 
         <button
           onClick={toggleScreenShare}
-          className={`px-3 py-2 rounded-lg transition-all flex items-center gap-2 ${isScreenSharing ? 'bg-blue-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.4)]' : 'hover:bg-slate-800 text-slate-400'}`}
-          title={isScreenSharing ? "Stop Sharing" : "Share Screen"}
+          className={`px-3 py-2 rounded-lg transition-all flex items-center gap-2 ${isScreenShareEnabled ? 'bg-blue-600 text-white shadow-[0_0_15px_rgba(37,99,235,0.4)]' : 'hover:bg-slate-800 text-slate-400'}`}
+          title={isScreenShareEnabled ? "Stop Sharing" : "Share Screen"}
         >
           <span className="material-symbols-outlined text-xl">
-            {isScreenSharing ? "stop_screen_share" : "screen_share"}
+            {isScreenShareEnabled ? "stop_screen_share" : "screen_share"}
           </span>
-          {isScreenSharing && <span className="text-[10px] font-bold uppercase tracking-tighter">You are sharing</span>}
+          {isScreenShareEnabled && <span className="text-[10px] font-bold uppercase tracking-tighter">You are sharing</span>}
         </button>
+        <div className="relative group">
+          <button
+            onClick={toggleRecording}
+            className={`p-2 rounded-full transition-all flex items-center justify-center ${isRecording ? 'bg-red-500 text-white animate-pulse shadow-[0_0_15px_rgba(239,68,68,0.5)]' : 'hover:bg-slate-800 text-slate-400'}`}
+            title={isRecording ? "Stop Recording (Saving to your PC)" : "Record Meeting Locally (will ask to capture your screen tab)"}
+          >
+            <span className="material-symbols-outlined text-xl">
+              {isRecording ? "stop_circle" : "radio_button_checked"}
+            </span>
+          </button>
+        </div>
         <button
           onClick={toggleCam}
-          className={`p-2 rounded-full transition-colors ${isCamOn ? 'hover:bg-slate-800 text-slate-400' : 'bg-red-500/10 text-red-500'}`}
-          title={isCamOn ? "Turn Camera Off" : "Turn Camera On"}
+          className={`p-2 rounded-full transition-colors ${isCameraEnabled ? 'hover:bg-slate-800 text-slate-400' : 'bg-red-500/10 text-red-500'}`}
+          title={isCameraEnabled ? "Turn Camera Off" : "Turn Camera On"}
         >
           <span className="material-symbols-outlined text-xl">
-            {isCamOn ? "videocam" : "videocam_off"}
+            {isCameraEnabled ? "videocam" : "videocam_off"}
           </span>
         </button>
         <button
           onClick={toggleMic}
-          className={`p-2 rounded-full transition-colors ${isMicOn ? 'hover:bg-slate-800 text-slate-400' : 'bg-red-500/10 text-red-500'}`}
-          title={isMicOn ? "Mute Microphone" : "Unmute Microphone"}
+          className={`p-2 rounded-full transition-colors ${isMicrophoneEnabled ? 'hover:bg-slate-800 text-slate-400' : 'bg-red-500/10 text-red-500'}`}
+          title={isMicrophoneEnabled ? "Mute Microphone" : "Unmute Microphone"}
         >
           <span className="material-symbols-outlined text-xl">
-            {isMicOn ? "mic" : "mic_off"}
+            {isMicrophoneEnabled ? "mic" : "mic_off"}
           </span>
         </button>
         <button
