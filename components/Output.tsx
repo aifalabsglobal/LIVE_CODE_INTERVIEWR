@@ -12,7 +12,7 @@ interface OutputProps {
 }
 
 export interface OutputHandle {
-  runCode: () => Promise<void>;
+  runCode: () => Promise<string | undefined>;
 }
 
 const Output = forwardRef<OutputHandle, OutputProps>(function Output(
@@ -25,16 +25,19 @@ const Output = forwardRef<OutputHandle, OutputProps>(function Output(
 
   const runCode = async () => {
     const sourceCode = editorRef.current?.getValue?.();
-    if (!sourceCode) return;
+    if (!sourceCode) return undefined;
     try {
       setIsLoading(true);
       const { run: result } = await executeCode(language, sourceCode);
-      setOutput(result.output.split("\n"));
+      const outLines = result.output;
+      setOutput(outLines.split("\n"));
       setIsError(!!result.stderr);
+      return outLines;
     } catch (error: unknown) {
       const err = error as { response?: { data?: { error?: string } }; message?: string };
       const description = err.response?.data?.error || err.message || "Unable to run code";
       toast.error(`Run code failed: ${description}`, { duration: 8000 });
+      return undefined;
     } finally {
       setIsLoading(false);
     }

@@ -10,8 +10,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@ai-sdk/openai": "^3.0.31",
+    "@ai-sdk/react": "^3.0.99",
     "@chakra-ui/react": "^2.8.2",
     "@clerk/nextjs": "^6.38.1",
+    "@clerk/themes": "^2.4.55",
     "@langchain/core": "^0.3.23",
     "@langchain/openai": "^0.3.12",
     "@liveblocks/client": "^1.5.0",
@@ -21,6 +24,8 @@
     "@livekit/components-react": "^2.6.1",
     "@livekit/components-styles": "^1.2.0",
     "@monaco-editor/react": "^4.6.0",
+    "@prisma/client": "^7.4.1",
+    "ai": "^6.0.97",
     "axios": "^1.7.7",
     "firebase": "^11.0.1",
     "ioredis": "^5.4.1",
@@ -32,6 +37,8 @@
     "react-dom": "^18.3.1",
     "react-hot-toast": "^2.6.0",
     "react-icons": "^5.3.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
     "y-monaco": "^0.1.6",
     "y-protocols": "^1.0.6",
     "yjs": "^13.6.18"
@@ -47,7 +54,8 @@
     "eslint-config-next": "^15.0.3",
     "globals": "^17.3.0",
     "postcss": "^8.5.6",
+    "prisma": "^7.4.1",
     "tailwindcss": "^4.2.0",
-    "typescript": "^5.5.3"
+    "typescript": "~5.8"
   }
 }

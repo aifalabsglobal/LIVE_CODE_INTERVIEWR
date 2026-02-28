@@ -7,7 +7,7 @@ import {
   ParticipantTile,
   useTracks,
 } from "@livekit/components-react";
-import { Track } from "livekit-client";
+import { Track, VideoPresets } from "livekit-client";
 import "@livekit/components-styles";
 
 interface VideoRoomProps {
@@ -48,31 +48,36 @@ class VideoConferenceErrorBoundary extends React.Component<
   }
 }
 
-export function VideoTiles() {
-  const tracks = useTracks(
-    [
-      { source: Track.Source.Camera, withPlaceholder: true },
-      { source: Track.Source.ScreenShare, withPlaceholder: false },
-    ]
-  );
+export function VideoTiles({ layout = "grid" }: { layout?: "grid" | "vertical" }) {
+  const tracks = useTracks([
+    { source: Track.Source.Camera, withPlaceholder: true }
+  ]);
 
-  // Filter out local participant's own screen share (like Teams/Meet)
-  const filteredTracks = tracks.filter(
-    (track) => !(track.participant.isLocal && track.source === Track.Source.ScreenShare)
-  );
+  const getGridClass = (count: number) => {
+    if (count <= 1) return "grid-cols-1 place-items-center";
+    if (count === 2) return "grid-cols-1 md:grid-cols-2 place-items-center";
+    if (count <= 4) return "grid-cols-2 place-items-center";
+    return "grid-cols-2 md:grid-cols-3 lg:grid-cols-4 place-items-center";
+  };
 
   return (
     <VideoConferenceErrorBoundary>
-      <div className="grid grid-cols-1 gap-2 p-2 h-full overflow-y-auto custom-scrollbar bg-black">
-        {filteredTracks.map((track) => (
+      <div
+        className={`${layout === "grid"
+          ? `grid ${getGridClass(tracks.length)} gap-4 w-full content-center`
+          : "flex flex-col gap-3"
+          } p-4 h-full overflow-y-auto custom-scrollbar ${layout === "grid" ? "bg-black" : ""}`}
+      >
+        {tracks.map((track) => (
           <ParticipantTile
             key={`${track.participant.identity}-${track.source}`}
             trackRef={track}
+            className={`${layout === "grid" && tracks.length === 1 ? "max-w-5xl max-h-[85vh]" : ""} w-full h-auto aspect-video rounded-xl overflow-hidden shrink-0 bg-slate-900 shadow-2xl border border-slate-800 object-contain`}
           />
         ))}
-        {filteredTracks.length === 0 && (
-          <div className="flex items-center justify-center aspect-video text-slate-500 text-xs">
-            Waiting for participants...
+        {tracks.length === 0 && (
+          <div className={`col-span-full flex items-center justify-center ${layout === "grid" ? "h-[50vh]" : "h-32"} text-slate-500 text-sm font-medium text-center p-4`}>
+            Waiting for participants to join with camera...
           </div>
         )}
       </div>
@@ -110,6 +115,28 @@ export default function VideoRoom({ roomId, participantIdentity }: VideoRoomProp
       data-lk-theme="default"
       style={{ height: "100%" }}
       connect={true}
+      options={{
+        publishDefaults: {
+          screenShareEncoding: {
+            maxBitrate: 8000000,
+            maxFramerate: 60,
+          },
+          videoEncoding: {
+            maxBitrate: 3000000,
+            maxFramerate: 30,
+          }
+        },
+        audioCaptureDefaults: {
+          autoGainControl: true,
+          echoCancellation: true,
+          noiseSuppression: true,
+          sampleRate: 48000,
+          channelCount: 2,
+        },
+        videoCaptureDefaults: {
+          resolution: VideoPresets.h1080.resolution,
+        }
+      }}
     >
       <VideoTiles />
       <RoomAudioRenderer />

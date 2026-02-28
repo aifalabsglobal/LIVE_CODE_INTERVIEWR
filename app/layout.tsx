@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <ClerkProvider
       appearance={{
+        baseTheme: dark,
         variables: {
           colorPrimary: "#135bec",
           colorBackground: "#161b22",
@@ -37,6 +39,7 @@ export default function RootLayout({
         <body
           className={`${inter.variable} font-display antialiased`}
           style={{ backgroundColor: "#0d1117", color: "#e2e8f0" }}
+          suppressHydrationWarning
         >
           {children}
           <Toaster

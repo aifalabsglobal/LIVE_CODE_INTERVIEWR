@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { firestore } from "@/lib/firebase";
-import { collection, getDocs } from "firebase/firestore";
 
 async function getRecordings(roomId: string) {
   const res = await fetch(`/api/recordings?roomId=${roomId}`);
@@ -88,15 +86,11 @@ export default function InterviewReportComponent() {
       .catch(() => setVideoStatus("failed"));
 
     const getCodes = async () => {
-      if (!firestore) {
-        setCodesStatus("failed");
-        return;
-      }
       try {
-        const colRef = collection(firestore, `codes/${roomId}/versions`);
-        const snapshot = await getDocs(colRef);
-        const codesData = snapshot.docs.map((d) => d.data());
-        setCodes(codesData);
+        const res = await fetch(`/api/code?roomId=${roomId}`);
+        if (!res.ok) throw new Error("Failed to fetch code snapshots");
+        const json = await res.json();
+        setCodes(json.data);
         setCodesStatus("success");
       } catch {
         setCodesStatus("failed");
@@ -276,14 +270,14 @@ export default function InterviewReportComponent() {
           {(summaryStatus === "failed" ||
             topicsStatus === "failed" ||
             actionItemsStatus === "failed") && (
-            <button
-              type="button"
-              onClick={retryReport}
-              className="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-slate-700 text-slate-100 text-sm font-medium hover:bg-slate-600 transition-colors"
-            >
-              Retry AI Report
-            </button>
-          )}
+              <button
+                type="button"
+                onClick={retryReport}
+                className="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-4 bg-slate-700 text-slate-100 text-sm font-medium hover:bg-slate-600 transition-colors"
+              >
+                Retry AI Report
+              </button>
+            )}
           <button
             type="button"
             onClick={copyReport}
@@ -369,9 +363,8 @@ export default function InterviewReportComponent() {
                 codes.map((c: any, i: number) => (
                   <div key={i} className="relative pl-10 group cursor-pointer">
                     <div
-                      className={`absolute left-0 top-1.5 size-10 flex items-center justify-center rounded-full border-4 border-background-dark z-10 ${
-                        i === 0 ? "bg-primary text-white" : "bg-slate-800 group-hover:bg-primary/20"
-                      }`}
+                      className={`absolute left-0 top-1.5 size-10 flex items-center justify-center rounded-full border-4 border-background-dark z-10 ${i === 0 ? "bg-primary text-white" : "bg-slate-800 group-hover:bg-primary/20"
+                        }`}
                     >
                       <span className="material-symbols-outlined text-sm">code</span>
                     </div>

@@ -12,8 +12,6 @@ import LiveblocksYjsProvider from "@liveblocks/yjs";
 import { useRoom } from "@/lib/liveblocks";
 import { MonacoBinding } from "y-monaco";
 import type { Awareness } from "y-protocols/awareness";
-import { doc, setDoc } from "firebase/firestore";
-import { firestore } from "@/lib/firebase";
 
 let savedCodeCount = 0;
 
@@ -89,18 +87,18 @@ export default function CodeEditor({
   }, [yProvider, editorReady, yText]);
 
   async function saveCode() {
-    if (!firestore) {
-      toast.error("Firebase not configured. Add NEXT_PUBLIC_FIREBASE_API_KEY to .env to save code.");
-      return;
-    }
-    const docReference = doc(
-      firestore,
-      `codes/${roomId}/versions/${savedCodeCount++}`
-    );
-    const docData = { code: value };
-
     try {
-      await setDoc(docReference, docData);
+      const res = await fetch('/api/code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          roomId,
+          version: savedCodeCount++,
+          code: value,
+        }),
+      });
+
+      if (!res.ok) throw new Error('API returned ' + res.status);
       toast.success("Code saved successfully.");
     } catch (error) {
       toast.error("Error saving code. Please try again.");
@@ -118,7 +116,7 @@ export default function CodeEditor({
             options={{ minimap: { enabled: false } }}
             theme="vs-dark"
             language={lang}
-            defaultValue={CODE_SNIPPETS[lang] ?? CODE_SNIPPETS.javascript}
+            defaultValue={CODE_SNIPPETS[lang] ?? `// Write your ${lang} code here`}
             onMount={onMount}
             value={value}
             onChange={(newValue) => setValue(newValue ?? "")}
@@ -148,7 +146,7 @@ export default function CodeEditor({
           height="70vh"
           theme="vs-dark"
           language={lang}
-          defaultValue={CODE_SNIPPETS[lang] ?? CODE_SNIPPETS.javascript}
+          defaultValue={CODE_SNIPPETS[lang] ?? `// Write your ${lang} code here`}
           onMount={onMount}
           value={value}
           onChange={(newValue) => setValue(newValue ?? "")}
