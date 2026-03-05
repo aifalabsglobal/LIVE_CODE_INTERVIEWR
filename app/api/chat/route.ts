@@ -15,24 +15,35 @@ export const maxDuration = 300;
  * it requires plain string content. This handles both old SDK format
  * (m.content = string) and v3 format (m.parts = array).
  */
-function toSimpleMessages(messages: any[]): { role: 'user' | 'assistant'; content: string }[] {
+interface ChatPart {
+    type: string;
+    text?: string;
+}
+
+interface ChatMessage {
+    role: string;
+    content: string | ChatPart[];
+    parts?: ChatPart[];
+}
+
+function toSimpleMessages(messages: ChatMessage[]): { role: 'user' | 'assistant'; content: string }[] {
     return messages
-        .filter((m: any) => m.role === 'user' || m.role === 'assistant')
-        .map((m: any) => {
+        .filter((m) => m.role === 'user' || m.role === 'assistant')
+        .map((m) => {
             let text = '';
             if (typeof m.content === 'string' && m.content.trim()) {
                 text = m.content;
             } else if (Array.isArray(m.parts)) {
                 // v3 SDK format: extract text from parts
                 text = m.parts
-                    .filter((p: any) => p.type === 'text')
-                    .map((p: any) => p.text)
+                    .filter((p) => p.type === 'text')
+                    .map((p) => p.text || '')
                     .join('');
             } else if (Array.isArray(m.content)) {
                 // content-array format
                 text = m.content
-                    .filter((p: any) => p.type === 'text')
-                    .map((p: any) => p.text)
+                    .filter((p) => (p as ChatPart).type === 'text')
+                    .map((p) => (p as ChatPart).text || '')
                     .join('');
             }
             return { role: m.role as 'user' | 'assistant', content: text };

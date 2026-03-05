@@ -24,7 +24,7 @@
     "@livekit/components-react": "^2.6.1",
     "@livekit/components-styles": "^1.2.0",
     "@monaco-editor/react": "^4.6.0",
-    "@prisma/client": "^7.4.1",
+    "@prisma/client": "^5.15.1",
     "ai": "^6.0.97",
     "axios": "^1.7.7",
     "firebase": "^11.0.1",
@@ -39,6 +39,7 @@
     "react-icons": "^5.3.0",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",
+    "resend": "^6.9.3",
     "y-monaco": "^0.1.6",
     "y-protocols": "^1.0.6",
     "yjs": "^13.6.18"
@@ -52,10 +53,13 @@
     "autoprefixer": "^10.4.24",
     "eslint": "^9.11.1",
     "eslint-config-next": "^15.0.3",
-    "globals": "^17.3.0",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.4.0",
     "postcss": "^8.5.6",
-    "prisma": "^7.4.1",
+    "prisma": "^5.15.1",
     "tailwindcss": "^4.2.0",
-    "typescript": "~5.8"
+    "typescript": "~5.8",
+    "typescript-eslint": "^8.56.1"
   }
 }

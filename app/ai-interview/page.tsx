@@ -23,8 +23,8 @@ export default function AIOnboardingPage() {
         const res = await fetch("/api/runtimes");
         if (res.ok) {
           const data = await res.json();
-          const uniqueLangs = Array.from(new Set(data.map((r: any) => r.language)));
-          setRuntimes(uniqueLangs.map((l: any) => data.find((r: any) => r.language === l)));
+          const uniqueLangs = Array.from(new Set((data as { language: string }[]).map((r) => r.language)));
+          setRuntimes(uniqueLangs.map((l) => (data as { language: string, version: string }[]).find((r) => r.language === l)!));
         }
       } catch (e) {
         console.error(e);

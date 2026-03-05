@@ -23,8 +23,8 @@ export async function POST(request: NextRequest) {
 
         const info = await egressClient.stopEgress(egressId);
         return NextResponse.json({ success: true, info });
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("Egress stop failed:", error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message }, { status: 500 });
     }
 }

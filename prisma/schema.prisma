@@ -2,14 +2,15 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./dev.db"
+  url      = env("DATABASE_URL")
 }
+
+// ─── Existing model (untouched) ────────────────────────────────────────────────
 
 model CodeSnapshot {
   id        String   @id @default(cuid())
@@ -17,4 +18,114 @@ model CodeSnapshot {
   version   Int
   code      String
   createdAt DateTime @default(now())
+}
+
+// ─── User Management ───────────────────────────────────────────────────────────
+// Role is stored as a string enum: ADMIN | INTERVIEWER | CANDIDATE
+
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  email     String
+  name      String
+  role      String   @default("CANDIDATE") // ADMIN | INTERVIEWER | CANDIDATE
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  schedulesAsInterviewer InterviewSchedule[] @relation("InterviewerSchedules")
+  schedulesAsCandidate   InterviewSchedule[] @relation("CandidateSchedules")
+  reportsAsInterviewer   InterviewReport[]   @relation("InterviewerReports")
+  reportsAsCandidate     InterviewReport[]   @relation("CandidateReports")
+  aiMockSessions         AIMockSession[]
+  activityLogs           ActivityLog[]
+}
+
+// ─── Interview Scheduling ──────────────────────────────────────────────────────
+
+model InterviewSchedule {
+  id            String   @id @default(cuid())
+  roomId        String   @unique
+  mode          String   // MEET | INTERVIEW | AI_MOCK
+  scheduledAt   DateTime
+  status        String   @default("SCHEDULED") // SCHEDULED | IN_PROGRESS | COMPLETED | CANCELLED
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  interviewerId String
+  interviewer   User     @relation("InterviewerSchedules", fields: [interviewerId], references: [id])
+
+  candidateId   String
+  candidate     User     @relation("CandidateSchedules", fields: [candidateId], references: [id])
+
+  report        InterviewReport?
+}
+
+// ─── Interview Reports ─────────────────────────────────────────────────────────
+
+model InterviewReport {
+  id                 String   @id @default(cuid())
+  mode               String   // MEET | INTERVIEW | AI_MOCK
+  durationMinutes    Int?
+  performanceSummary String?
+  feedback           String?
+  codeSnapshot       String?
+  recordingRef       String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  scheduleId    String?            @unique
+  schedule      InterviewSchedule? @relation(fields: [scheduleId], references: [id])
+
+  interviewerId String
+  interviewer   User   @relation("InterviewerReports", fields: [interviewerId], references: [id])
+
+  candidateId   String
+  candidate     User   @relation("CandidateReports", fields: [candidateId], references: [id])
+}
+
+// ─── AI Mock Interview Sessions ────────────────────────────────────────────────
+
+model AIMockSession {
+  id         String   @id @default(cuid())
+  roomId     String?
+  language   String
+  difficulty String
+  role       String
+  duration   Int      // in minutes
+  questions  String?  // JSON stringified
+  responses  String?  // JSON stringified
+  evaluation String?  // JSON stringified
+  aiFeedback String?
+  createdAt  DateTime @default(now())
+
+  candidateId String
+  candidate   User   @relation(fields: [candidateId], references: [id])
+}
+
+// ─── Meeting Messages ──────────────────────────────────────────────────────────
+
+model MeetingMessage {
+  id         String   @id @default(cuid())
+  roomId     String
+  senderId   String
+  senderName String
+  content    String
+  createdAt  DateTime @default(now())
+}
+
+// ─── Activity Log ──────────────────────────────────────────────────────────────
+
+model ActivityLog {
+  id         String   @id @default(cuid())
+  action     String   // e.g. "SCHEDULE_CREATED", "REPORT_GENERATED", "AI_MOCK_COMPLETED"
+  entityType String?  // e.g. "schedule", "report", "ai_session"
+  entityId   String?
+  metadata   String?  // JSON stringified
+  createdAt  DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }

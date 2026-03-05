@@ -26,7 +26,7 @@ export async function GET(
   const { recordingId } = await params;
 
   // Fetch transcript once (shared by all agents)
-  const transcriptData = await getCached<any>(`transcript:${recordingId}`);
+  const transcriptData = await getCached<unknown>(`transcript:${recordingId}`);
   if (!transcriptData) {
     return NextResponse.json(
       {
@@ -80,7 +80,7 @@ export async function GET(
   results.forEach((r, i) => {
     const type = entries[i]?.type;
     if (r.status === "fulfilled") {
-      (response as any)[r.value.type] = r.value.result;
+      (response as unknown as Record<string, unknown>)[r.value.type] = r.value.result;
     } else if (type) {
       errors[type] = String(r.reason?.message ?? r.reason);
     }
